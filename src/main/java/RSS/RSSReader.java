@@ -98,7 +98,7 @@ public class RSSReader {
 
     }
     public void rssRedditFeed(String subreddit,String searchType,String timePeriod) {
-        String urlAddress="";
+        String urlAddress;
         if(subreddit!=null)
         {
             if(searchType==null)
@@ -128,7 +128,7 @@ public class RSSReader {
             page = in.readLine();
             //System.out.println( line );
 
-            List<String> contents = new ArrayList<String>(Arrays.asList(page.split("<author>")));
+            List<String> contents = new ArrayList<>(Arrays.asList(page.split("<author>")));
             contents.remove(0);
             int firstPos;
             int lastPos;
@@ -164,7 +164,6 @@ public class RSSReader {
                 }
 
                 firstPos= -1;
-
                 firstPos = line.indexOf( "md&quot;&gt;&lt;p&gt;" );
                     if(firstPos==-1)
                         System.out.println("nu are descriere");
