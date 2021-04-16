@@ -36,7 +36,7 @@ public class Commands extends ListenerAdapter {
             }
             else{
                 int number =Integer.parseInt(args[1]);
-                if(!(number>0 && number<11)){
+                if(!(number>0 && number<101)){
                     System.out.println("eroare2");
                 }
                 else{
@@ -127,28 +127,11 @@ public class Commands extends ListenerAdapter {
         }
 
     }
-    public trial rssPage(int page){
+    public EmbedBuilder rssPage(int page){
 
-        /*
+
         Article myArticle = myReader.getRssArticles().get(page);
         EmbedBuilder info = new EmbedBuilder();
-        info.setColor( new Color( 231, 190, 76 ) );
-        if(myArticle.getImageURL()==null)
-            info.setThumbnail( "https://javapapers.com/favicon-32x32.png?v=261118" );
-        else{
-            info.setThumbnail( myArticle.getImageURL() );
-        }
-
-        info.setTitle( myArticle.getTitle() );
-        info.setDescription( myArticle.getDescription() + '\n' + myArticle.getLink()  );
-        //info.setFooter( myArticle.getLink() );
-
-        return info;*/
-
-        Article myArticle = myReader.getRssArticles().get(page);
-        trial info = new trial();
-        info.setArticles(  myReader.getRssArticles());
-        info.setPageNumber( 1 );
         info.setColor( new Color( 231, 190, 76 ) );
         if(myArticle.getImageURL()==null)
             info.setThumbnail( "https://javapapers.com/favicon-32x32.png?v=261118" );
