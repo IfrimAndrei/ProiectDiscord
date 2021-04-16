@@ -30,6 +30,7 @@ public class RSSReader {
     public void clear(){
         rssArticles=new LinkedList<>();
     }
+
     public void readRSSFeed(String urlAddress){
         try{
             URL rssUrl = new URL (urlAddress);

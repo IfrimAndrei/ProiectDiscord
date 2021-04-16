@@ -50,8 +50,7 @@ public class Commands extends ListenerAdapter {
             EmbedBuilder info = new EmbedBuilder();
             info.setTitle("Pepe Bot Info");
             info.setDescription( "Getting Better Every Day");
-            info.setFooter("Created by Sushy ",event.getMember().getUser().getAvatarUrl());
-
+            info.setFooter("Created by sushy & adrianchiru" );
             event.getChannel().sendMessage(info.build()).queue();
             info.clear();
         }
@@ -128,11 +127,28 @@ public class Commands extends ListenerAdapter {
         }
 
     }
-    public EmbedBuilder rssPage(int page){
+    public trial rssPage(int page){
 
-
+        /*
         Article myArticle = myReader.getRssArticles().get(page);
         EmbedBuilder info = new EmbedBuilder();
+        info.setColor( new Color( 231, 190, 76 ) );
+        if(myArticle.getImageURL()==null)
+            info.setThumbnail( "https://javapapers.com/favicon-32x32.png?v=261118" );
+        else{
+            info.setThumbnail( myArticle.getImageURL() );
+        }
+
+        info.setTitle( myArticle.getTitle() );
+        info.setDescription( myArticle.getDescription() + '\n' + myArticle.getLink()  );
+        //info.setFooter( myArticle.getLink() );
+
+        return info;*/
+
+        Article myArticle = myReader.getRssArticles().get(page);
+        trial info = new trial();
+        info.setArticles(  myReader.getRssArticles());
+        info.setPageNumber( 1 );
         info.setColor( new Color( 231, 190, 76 ) );
         if(myArticle.getImageURL()==null)
             info.setThumbnail( "https://javapapers.com/favicon-32x32.png?v=261118" );
