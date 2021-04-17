@@ -64,7 +64,7 @@ public class Commands extends ListenerAdapter {
         }
 
         if(args[0].equalsIgnoreCase( Main.prefix + "javapapers")){
-
+            event.getMessage().delete().queue();
 
             ArticleManager.setSite("javapapers" );
             EmbedBuilder info = ArticleManager.newPage("https://javapapers.com/category/java/feed/");
@@ -79,7 +79,7 @@ public class Commands extends ListenerAdapter {
 
         if(args[0].equalsIgnoreCase( Main.prefix + "mkyong")){
 
-
+            event.getMessage().delete().queue();
             ArticleManager.setSite( "mkyong" );
             EmbedBuilder info = ArticleManager.newPage("https://mkyong.com/feed/");
 
@@ -92,7 +92,7 @@ public class Commands extends ListenerAdapter {
         }
 
         if(args[0].equalsIgnoreCase( Main.prefix + "reddit" )){
-
+            event.getMessage().delete().queue();
             ArticleManager.getMyReader().clear();
             ArticleManager.setSite( "reddit" );
 

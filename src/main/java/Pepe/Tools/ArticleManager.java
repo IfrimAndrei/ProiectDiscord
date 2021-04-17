@@ -73,7 +73,7 @@ public class ArticleManager {
         }
         info.setImage( myArticle.getImageURL());
         info.setTitle( myArticle.getTitle() );
-        if(myArticle.getDescription()!=null)
+        if(myArticle.getDescription()!=null && myArticle.getDescription().length()<2048)
             info.setDescription( myArticle.getDescription() + '\n' + myArticle.getLink()  );
         else
             info.setDescription( myArticle.getLink() );
