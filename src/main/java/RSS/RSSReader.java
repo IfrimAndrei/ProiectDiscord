@@ -21,10 +21,10 @@ public class RSSReader {
     }
 
     public static void main(String[] args){
-        //RSSReader test= new RSSReader();
         for(int i=0;i<1;i++) {
             RSSReader test= new RSSReader();
-            test.rssRedditFeed( null,null,null );
+            //test.rssRedditFeed( null,null,null );
+            test.readRSSFeed("https://www.protv.ro/rss");
         }
     }
     public void clear(){
@@ -185,6 +185,7 @@ public class RSSReader {
                         article.setDescription( temp );
                         System.out.println( article.getDescription() );
                         //rezolvat link-uri
+
                     }
                 rssArticles.add(article);
                 article=new Article();

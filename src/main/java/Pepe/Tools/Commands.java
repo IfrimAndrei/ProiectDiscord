@@ -15,6 +15,7 @@ public class Commands extends ListenerAdapter {
     public static int getJavapapersPage( ) {
         return javapapersPage;
     }
+    public static String site;
 
     public static void setJavapapersPage(int javapapersPage) {
         Commands.javapapersPage = javapapersPage;
@@ -25,27 +26,30 @@ public class Commands extends ListenerAdapter {
         if(args[0].equalsIgnoreCase( "uwu" )){
             event.getChannel().sendMessage(">W<").queue();
         }
+
         if(args[0].equals( "wait") && args[1].equals( "what" )){
 
             Collection<Message> messages = event.getChannel().getHistory().retrievePast(2).complete();
-            event.getChannel().deleteMessages( messages ).queue();
+            event
+                    .getChannel().deleteMessages( messages ).queue();
         }
         if(args[0].equals( Main.prefix + "clear")){
             if(args.length!=2){
-                System.out.println("eroare1");
+                event.getChannel().sendMessage ("Invalid Arguments").queue();
             }
             else{
                 int number =Integer.parseInt(args[1]);
-                if(!(number>0 && number<101)){
-                    System.out.println("eroare2");
-                }
-                else{
+                if(number>0 && number<100){
                     Collection<Message> messages = event.getChannel().getHistory().retrievePast(Integer.parseInt(args[1])+1).complete();
                     event.getChannel().deleteMessages( messages ).queue();
+                }
+                else{
+                    event.getChannel().sendMessage ("Can only clear 1-99 messages").queue();
                 }
 
             }
         }
+
         if(args[0].equalsIgnoreCase( Main.prefix + "info" )){
             EmbedBuilder info = new EmbedBuilder();
             info.setTitle("Pepe Bot Info");
@@ -54,6 +58,7 @@ public class Commands extends ListenerAdapter {
             event.getChannel().sendMessage(info.build()).queue();
             info.clear();
         }
+
         if(args[0].equalsIgnoreCase( Main.prefix + "commands" ))
         {
             event.getChannel().sendMessage( """
@@ -68,8 +73,10 @@ public class Commands extends ListenerAdapter {
                             """
                                             ).queue();
         }
+
         if(args[0].equalsIgnoreCase( Main.prefix + "javapapers")){
             myReader.clear();
+            site="javapapers";
             myReader.readRSSFeed( "https://javapapers.com/category/java/feed/" );
             javapapersPage=1;
             EmbedBuilder info = rssPage( javapapersPage );
@@ -84,6 +91,7 @@ public class Commands extends ListenerAdapter {
         }
         if(args[0].equalsIgnoreCase( Main.prefix + "mkyong")){
             myReader.clear();
+            site="mkyong";
             myReader.readRSSFeed( "https://mkyong.com/feed/");
             javapapersPage=1;
             EmbedBuilder info = rssPage( javapapersPage );
@@ -98,6 +106,7 @@ public class Commands extends ListenerAdapter {
         if(args[0].equalsIgnoreCase( Main.prefix + "reddit" )){
 
             myReader.clear();
+            site="reddit";
             if(args.length==4) {
                 myReader.rssRedditFeed( args[1], args[2], args[3] );
             }
@@ -133,14 +142,20 @@ public class Commands extends ListenerAdapter {
         Article myArticle = myReader.getRssArticles().get(page);
         EmbedBuilder info = new EmbedBuilder();
         info.setColor( new Color( 231, 190, 76 ) );
-        if(myArticle.getImageURL()==null)
-            info.setThumbnail( "https://javapapers.com/favicon-32x32.png?v=261118" );
-        else{
-            info.setThumbnail( myArticle.getImageURL() );
-        }
 
+        if( site.equals( "javapapers" ) )
+            info.setThumbnail( "https://javapapers.com/favicon-32x32.png?v=261118" );
+        else if ( site.equals( "mkyong" ) ){
+            info.setThumbnail( "https://i.pinimg.com/originals/41/df/26/41df26f532af6e8cfddc2b217e096c49.png" );
+        }
+        else if (site.equals( "reddit" ) ){
+            info.setThumbnail( "https://upload.wikimedia.org/wikipedia/ro/thumb/b/b4/Reddit_logo.svg/1200px-Reddit_logo.svg.png" );
+
+        }
+        info.setImage( myArticle.getImageURL());
         info.setTitle( myArticle.getTitle() );
         info.setDescription( myArticle.getDescription() + '\n' + myArticle.getLink()  );
+
         //info.setFooter( myArticle.getLink() );
 
         return info;
