@@ -11,6 +11,14 @@ public class ArticleManager {
     private static String site;
     private static int pageNumber;
 
+    public static int getPageNumber( ) {
+        return pageNumber;
+    }
+
+    public static void setPageNumber(int pageNumber) {
+        ArticleManager.pageNumber = pageNumber;
+    }
+
     public static String getSite( ) {
         return site;
     }
@@ -28,10 +36,13 @@ public class ArticleManager {
     }
 
 
-    public static EmbedBuilder newPage(){
+    public static EmbedBuilder newPage(String UrlAdress){
+        myReader.clear();
+        myReader.readRSSFeed( UrlAdress );
         pageNumber=0;
         return rssPage(pageNumber);
     }
+
     public static EmbedBuilder nextPage(){ //TODO add constraints, sa nu poata iesi din lista
         pageNumber++;
         return rssPage( pageNumber );
@@ -56,7 +67,11 @@ public class ArticleManager {
         }
         info.setImage( myArticle.getImageURL());
         info.setTitle( myArticle.getTitle() );
-        info.setDescription( myArticle.getDescription() + '\n' + myArticle.getLink()  );
+        if(myArticle.getDescription()!=null)
+            info.setDescription( myArticle.getDescription() + '\n' + myArticle.getLink()  );
+        else
+            info.setDescription( myArticle.getLink() );
+        info.setFooter( site );
 
         return info;
     }

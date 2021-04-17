@@ -15,6 +15,6 @@ public class Main {
         jda.getPresence().setActivity( Activity.watching( "paint drying" ) );
 
         jda.addEventListener( new Commands() );
-        jda.addEventListener( new GuildMessageReactionAdd() );
+        jda.addEventListener( new GuildMessageReaction() );
     }
 }

@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.util.Collection;
 
-public class GuildMessageReactionAdd extends ListenerAdapter {
+public class GuildMessageReaction extends ListenerAdapter {
     public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent event){
 
         if(event.getReactionEmote().getName().equals("⬅️") && !event.getMember().getUser().equals(event.getJDA().getSelfUser())) {
