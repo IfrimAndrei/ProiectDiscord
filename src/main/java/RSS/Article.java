@@ -1,11 +1,11 @@
 package RSS;
 
 public class Article {
-    private String title="";
-    private String link="";
-    private String description="";
-    private String imageURL; //work in progress
-    private String site="";
+    private String title;
+    private String link;
+    private String description;
+    private String imageURL;
+    private String site;
 
 
     @Override

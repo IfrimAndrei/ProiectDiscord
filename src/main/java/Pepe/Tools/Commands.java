@@ -1,27 +1,15 @@
 package Pepe.Tools;
 import RSS.Article;
-import RSS.RSSReader;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import java.awt.*;
 import java.util.Collection;
 
 public class Commands extends ListenerAdapter {
-    private static int javapapersPage=1;
-    private static RSSReader myReader = new RSSReader();
-    public static int getJavapapersPage( ) {
-        return javapapersPage;
-    }
-    public static String site;
-
-    public static void setJavapapersPage(int javapapersPage) {
-        Commands.javapapersPage = javapapersPage;
-    }
-
     public void onGuildMessageReceived(GuildMessageReceivedEvent event){
+
         String[] args = event.getMessage().getContentRaw().split( " " );
         if(args[0].equalsIgnoreCase( "uwu" )){
             event.getChannel().sendMessage(">W<").queue();
@@ -33,6 +21,7 @@ public class Commands extends ListenerAdapter {
             event
                     .getChannel().deleteMessages( messages ).queue();
         }
+
         if(args[0].equals( Main.prefix + "clear")){
             if(args.length!=2){
                 event.getChannel().sendMessage ("Invalid Arguments").queue();
@@ -75,26 +64,28 @@ public class Commands extends ListenerAdapter {
         }
 
         if(args[0].equalsIgnoreCase( Main.prefix + "javapapers")){
-            myReader.clear();
-            site="javapapers";
-            myReader.readRSSFeed( "https://javapapers.com/category/java/feed/" );
-            javapapersPage=1;
-            EmbedBuilder info = rssPage( javapapersPage );
+
+            ArticleManager.getMyReader().clear();
+            ArticleManager.setSite("javapapers" );
+            EmbedBuilder info = ArticleManager.newPage();
+            ArticleManager.getMyReader().readRSSFeed("https://javapapers.com/category/java/feed/");
+
             event.getChannel().sendMessage(info.build()).queue(message -> {
                                                         message.addReaction("⬅️").queue();
                                                         message.addReaction("➡️").queue();
                                                         message.addReaction("❌"   ).queue();
                                                         });
-            info.clear();
-
 
         }
+
         if(args[0].equalsIgnoreCase( Main.prefix + "mkyong")){
-            myReader.clear();
-            site="mkyong";
-            myReader.readRSSFeed( "https://mkyong.com/feed/");
-            javapapersPage=1;
-            EmbedBuilder info = rssPage( javapapersPage );
+
+            ArticleManager.getMyReader().clear();
+            ArticleManager.setSite( "mkyong" );
+            EmbedBuilder info = ArticleManager.newPage();
+            ArticleManager.getMyReader().readRSSFeed( "https://mkyong.com/feed/");
+
+
 
             event.getChannel().sendMessage(info.build()).queue(message -> {
                 message.addReaction("⬅️").queue();
@@ -103,63 +94,41 @@ public class Commands extends ListenerAdapter {
             });
             info.clear();
         }
+
         if(args[0].equalsIgnoreCase( Main.prefix + "reddit" )){
 
-            myReader.clear();
-            site="reddit";
+            ArticleManager.getMyReader().clear();
+            ArticleManager.setSite( "reddit" );
+
+
             if(args.length==4) {
-                myReader.rssRedditFeed( args[1], args[2], args[3] );
+                ArticleManager.getMyReader().rssRedditFeed( args[1], args[2], args[3] );
             }
             else if(args.length==3) {
-                myReader.rssRedditFeed( args[1], args[2], null );
+                ArticleManager.getMyReader().rssRedditFeed( args[1], args[2], null );
             }
             else if(args.length==2) {
-                myReader.rssRedditFeed( args[1], null, null );
+                ArticleManager.getMyReader().rssRedditFeed( args[1], null, null );
             }
             else if(args.length==1){
                 event.getChannel().sendMessage("For better details add a subreddit in the command.").queue();
-                myReader.rssRedditFeed( null,null,null );
+                ArticleManager.getMyReader().rssRedditFeed( null,null,null );
             }
             else{
                 event.getChannel().sendMessage("Too many arguments.").queue();
             }
+            EmbedBuilder info = ArticleManager.newPage();
 
-            javapapersPage=1;
-            EmbedBuilder info = rssPage( javapapersPage );
 
             event.getChannel().sendMessage(info.build()).queue(message -> {
                 message.addReaction("⬅️").queue();
                 message.addReaction("➡️").queue();
                 message.addReaction("❌"   ).queue();
             });
-            info.clear();
         }
 
     }
-    public EmbedBuilder rssPage(int page){
 
-
-        Article myArticle = myReader.getRssArticles().get(page);
-        EmbedBuilder info = new EmbedBuilder();
-        info.setColor( new Color( 231, 190, 76 ) );
-
-        if( site.equals( "javapapers" ) )
-            info.setThumbnail( "https://javapapers.com/favicon-32x32.png?v=261118" );
-        else if ( site.equals( "mkyong" ) ){
-            info.setThumbnail( "https://i.pinimg.com/originals/41/df/26/41df26f532af6e8cfddc2b217e096c49.png" );
-        }
-        else if (site.equals( "reddit" ) ){
-            info.setThumbnail( "https://upload.wikimedia.org/wikipedia/ro/thumb/b/b4/Reddit_logo.svg/1200px-Reddit_logo.svg.png" );
-
-        }
-        info.setImage( myArticle.getImageURL());
-        info.setTitle( myArticle.getTitle() );
-        info.setDescription( myArticle.getDescription() + '\n' + myArticle.getLink()  );
-
-        //info.setFooter( myArticle.getLink() );
-
-        return info;
-    }
 
 
 }

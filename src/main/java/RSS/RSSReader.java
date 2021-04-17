@@ -15,7 +15,6 @@ import java.util.List;
 
 public class RSSReader {
     private List<Article> rssArticles = new LinkedList<>();
-
     public List<Article> getRssArticles( ) {
         return rssArticles;
     }

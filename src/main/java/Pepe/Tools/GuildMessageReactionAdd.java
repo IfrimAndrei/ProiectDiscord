@@ -13,53 +13,28 @@ public class GuildMessageReactionAdd extends ListenerAdapter {
 
         if(event.getReactionEmote().getName().equals("⬅️") && !event.getMember().getUser().equals(event.getJDA().getSelfUser())) {
 
-
-            Commands textCommand = new Commands();
-
-            Commands.setJavapapersPage(Commands.getJavapapersPage()-1  );
-            if(Commands.getJavapapersPage()==0 ){
-                Commands.setJavapapersPage( 1 );
-            }
-            EmbedBuilder info = textCommand.rssPage( Commands.getJavapapersPage() );
-
+            EmbedBuilder info = ArticleManager.previousPage();
             event.getChannel().editMessageById( event.getMessageId(),info.build() ).queue();
 
         }
         if(event.getReactionEmote().getName().equals("➡️") && !event.getMember().getUser().equals(event.getJDA().getSelfUser())) {
-
-
-            Commands textCommand = new Commands();
-            Commands.setJavapapersPage(Commands.getJavapapersPage()+1  );
-            EmbedBuilder info = textCommand.rssPage( Commands.getJavapapersPage() );
-
+            EmbedBuilder info = ArticleManager.nextPage();
             event.getChannel().editMessageById( event.getMessageId(),info.build() ).queue();
         }
         if(event.getReactionEmote().getName().equals("❌") && !event.getMember().getUser().equals(event.getJDA().getSelfUser())) {
-            //event.getChannel().deleteMessageById( event.getMessageId() ).queue();
-            //Collection<Message> messages = event.getChannel().getHistory().retrievePast(2).complete();
             event.getChannel().deleteMessageById( event.getMessageId() ).queue();
         }
     }
     public void onGuildMessageReactionRemove(GuildMessageReactionRemoveEvent event)
     {
         if(event.getReactionEmote().getName().equals("⬅️")) {
-            Commands textCommand = new Commands();
 
-            Commands.setJavapapersPage(Commands.getJavapapersPage()-1  );
-            if(Commands.getJavapapersPage()==0 ){
-                Commands.setJavapapersPage( 1 );
-            }
-            EmbedBuilder info = textCommand.rssPage( Commands.getJavapapersPage() );
-
+            EmbedBuilder info = ArticleManager.previousPage();
             event.getChannel().editMessageById( event.getMessageId(),info.build() ).queue();
         }
         if(event.getReactionEmote().getName().equals("➡️")) {
-            Commands textCommand = new Commands();
 
-            Commands.setJavapapersPage(Commands.getJavapapersPage()+1  );
-
-            EmbedBuilder info = textCommand.rssPage( Commands.getJavapapersPage() );
-
+            EmbedBuilder info = ArticleManager.nextPage();
             event.getChannel().editMessageById( event.getMessageId(),info.build() ).queue();
         }
     }
