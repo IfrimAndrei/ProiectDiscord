@@ -15,104 +15,105 @@ import java.util.List;
 
 public class RSSReader {
     private List<Article> rssArticles = new LinkedList<>();
-    public List<Article> getRssArticles( ) {
+
+    public List<Article> getRssArticles() {
         return rssArticles;
     }
 
-    public static void main(String[] args){
-        for(int i=0;i<1;i++) {
-            RSSReader test= new RSSReader();
+    public static void main(String[] args) {
+        for (int i = 0; i < 1; i++) {
+            RSSReader test = new RSSReader();
             //test.rssRedditFeed( null,null,null );
-            test.readRSSFeed("https://www.protv.ro/rss");
+            test.readRSSFeed("https://mkyong.com/feed/");
         }
     }
-    public void clear(){
-        rssArticles=new LinkedList<>();
+
+    public void clear() {
+        rssArticles = new LinkedList<>();
     }
 
-    public void readRSSFeed(String urlAddress){
-        try{
-            URL rssUrl = new URL (urlAddress);
+    /*
+    public void readRSSFeed2(String urlAddress) {
+        try {
+            URL rssUrl = new URL(urlAddress);
             BufferedReader in = new BufferedReader(new InputStreamReader(rssUrl.openStream()));
 
             String line;
             Article article = new Article();
-            int articlePieces=0;
-            while((line=in.readLine())!=null){
-                if(line.contains("<title>")){
+            int articlePieces = 0;
+            while ((line = in.readLine()) != null) {
+                if (line.contains("<title>")) {
                     articlePieces++;
                     //System.out.println(line);
                     int firstPos = line.indexOf("<title>");
                     String temp = line.substring(firstPos);
-                    temp=temp.replace("<title>","");
+                    temp = temp.replace("<title>", "");
                     int lastPos = temp.indexOf("</title>");
-                    temp = temp.substring(0,lastPos);
+                    temp = temp.substring(0, lastPos);
 
-                    article.setTitle( temp );
-                }
-                else if(line.contains("<link>")){
+                    article.setTitle(temp);
+                } else if (line.contains("<link>")) {
                     articlePieces++;
                     //System.out.println(line);
                     int firstPos = line.indexOf("<link>");
                     String temp = line.substring(firstPos);
-                    temp=temp.replace("<link>","");
+                    temp = temp.replace("<link>", "");
                     int lastPos = temp.indexOf("</link>");
-                    temp = temp.substring(0,lastPos);
+                    temp = temp.substring(0, lastPos);
 
-                    article.setLink( temp );
-                }
-                else if(line.contains("<description>")){
+                    article.setLink(temp);
+                } else if (line.contains("<description>")) {
                     articlePieces++;
                     //System.out.println(line);
                     int firstPos = line.indexOf("<description>");
                     String temp = line.substring(firstPos);
-                    temp=temp.replace("<description><![CDATA[","");
+                    temp = temp.replace("<description><![CDATA[", "");
                     //int lastPos = temp.indexOf("</description>");
                     //temp = temp.substring(0,lastPos+1);
-                    temp=temp.replace("[&#8230;]","");//...
-                    temp=temp.replace("</p>","");
-                    temp=temp.replace("<p>","");
-                    temp=temp.replace("</description>","");
-                    temp=temp.replace("]]>","");
-                    article.setDescription( temp );
+                    temp = temp.replace("[&#8230;]", "");//...
+                    temp = temp.replace("</p>", "");
+                    temp = temp.replace("<p>", "");
+                    temp = temp.replace("</description>", "");
+                    temp = temp.replace("]]>", "");
+                    article.setDescription(temp);
                 }
-                if(articlePieces==3){
+                if (articlePieces == 3) {
                     rssArticles.add(article);
                     article = new Article();
-                    articlePieces=0;
+                    articlePieces = 0;
                 }
             }
             in.close();
-            for(int i=0;i<=5;i++)
+            for (int i = 0; i <= 5; i++)
                 System.out.println("\n");
-            for(Article art : rssArticles)
-            {
+            for (Article art : rssArticles) {
                 System.out.println(art);
             }
 
-        } catch (MalformedURLException ue){
+        } catch (MalformedURLException ue) {
             System.out.println("Malformed URL");
-        } catch (IOException ioe){
+        } catch (IOException ioe) {
             System.out.println("Something went wrong reading the contents");
         }
 
     }
-    public void rssRedditFeed(String subreddit,String searchType,String timePeriod) {
+    */
+
+
+    public void rssRedditFeed(String subreddit, String searchType, String timePeriod) {
         String urlAddress;
-        if(subreddit!=null)
-        {
-            if(searchType==null)
-                searchType="hot";
+        if (subreddit != null) {
+            if (searchType == null)
+                searchType = "hot";
             urlAddress = "https://www.reddit.com/r/";
             urlAddress += subreddit;
             urlAddress += "/" + searchType;
             urlAddress += "/.rss";
-            if ( searchType.equals( "top" ) && timePeriod != null ) {
+            if (searchType.equals("top") && timePeriod != null) {
                 urlAddress += "?t=" + timePeriod;
             }
-        }
-        else {
-             urlAddress ="https://www.reddit.com/.rss";
+        } else {
+            urlAddress = "https://www.reddit.com/.rss";
         }
         System.out.println(urlAddress);
 
@@ -120,11 +121,11 @@ public class RSSReader {
         Article article = new Article();
 
         try {
-            URL rssUrl = new URL( urlAddress );
+            URL rssUrl = new URL(urlAddress);
             URLConnection con = rssUrl.openConnection();
-            con.setRequestProperty( "User-Agent", "Chrome" );//Error 429 otherwise
+            con.setRequestProperty("User-Agent", "Chrome");//Error 429 otherwise
 
-            BufferedReader in = new BufferedReader( new InputStreamReader( con.getInputStream(), StandardCharsets.UTF_8 ));
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
             page = in.readLine();
             //System.out.println( line );
 
@@ -133,68 +134,147 @@ public class RSSReader {
             int firstPos;
             int lastPos;
             String temp;
-            for(String line : contents){
+            for (String line : contents) {
                 System.out.println("\n" + line);
 
                 firstPos = line.indexOf("<title>");
-                lastPos = line.indexOf( "</title>" );
-                article.setTitle( line.substring( firstPos+"<title>".length(),lastPos ));
+                lastPos = line.indexOf("</title>");
+                article.setTitle(line.substring(firstPos + "<title>".length(), lastPos));
                 System.out.println(article.getTitle());
 
-                if(subreddit!=null) {
+                if (subreddit != null) {
                     String webPage = "https://www.reddit.com/r/" + subreddit + "/comments";
-                    firstPos = line.indexOf( webPage );
-                    temp = line.substring( firstPos );
-                    lastPos = temp.indexOf( "&quot" );
-                    temp = temp.substring( 0, lastPos );
-                    article.setLink( temp );
-                    System.out.println( article.getLink() );
+                    firstPos = line.indexOf(webPage);
+                    temp = line.substring(firstPos);
+                    lastPos = temp.indexOf("&quot");
+                    temp = temp.substring(0, lastPos);
+                    article.setLink(temp);
+                    System.out.println(article.getLink());
                 }
 
                 firstPos = -1;
                 firstPos = line.indexOf("https://i.");
-                if(firstPos==-1)
+                if (firstPos == -1)
                     System.out.println("nu are imagine");
                 else {
-                    temp = line.substring( firstPos );
-                    lastPos = temp.indexOf( "&quot" );
-                    temp = temp.substring( 0, lastPos );
-                    article.setImageURL( temp );
-                    System.out.println( article.getImageURL() );
+                    temp = line.substring(firstPos);
+                    lastPos = temp.indexOf("&quot");
+                    temp = temp.substring(0, lastPos);
+                    article.setImageURL(temp);
+                    System.out.println(article.getImageURL());
                 }
 
-                firstPos= -1;
-                firstPos = line.indexOf( "md&quot;&gt;&lt;p&gt;" );
-                    if(firstPos==-1)
-                        System.out.println("nu are descriere");
-                    else {
-                        temp = line.substring( firstPos + "md&quot;&gt;&lt;p&gt;".length() );
-                        temp = temp.replace("&lt;/p&gt; &lt;p&gt;","\n");
+                firstPos = -1;
+                firstPos = line.indexOf("md&quot;&gt;&lt;p&gt;");
+                if (firstPos == -1)
+                    System.out.println("nu are descriere");
+                else {
+                    temp = line.substring(firstPos + "md&quot;&gt;&lt;p&gt;".length());
+                    temp = temp.replace("&lt;/p&gt; &lt;p&gt;", "\n");
 
-                        lastPos = temp.indexOf( ";/p&gt" );
-                        temp = temp.substring( 0, lastPos );
-                        temp=temp.replace("&lt",".");
-                        //temp = temp.replace("a href=&quot;","");
-                        temp = temp.replace ("&quot;&gt;[link]","");
-                        temp = temp.replace(".;/a&gt;","");
-                        temp= temp.replace(";a href=&quot;","");
-                        temp = temp.replace ("&;quot;&gt;","");
-                        temp=temp.replace("&amp;quot;", "\"");
-                        temp=temp.replace("&amp;#39;","'");
-                        article.setDescription( temp );
-                        System.out.println( article.getDescription() );
-                        //rezolvat link-uri
+                    lastPos = temp.indexOf(";/p&gt");
+                    temp = temp.substring(0, lastPos);
+                    temp = temp.replace("&lt", ".");
+                    //temp = temp.replace("a href=&quot;","");
+                    temp = temp.replace("&quot;&gt;[link]", "");
+                    temp = temp.replace(".;/a&gt;", "");
+                    temp = temp.replace(";a href=&quot;", "");
+                    temp = temp.replace("&;quot;&gt;", "");
+                    temp = temp.replace("&amp;quot;", "\"");
+                    temp = temp.replace("&amp;#39;", "'");
+                    article.setDescription(temp);
+                    System.out.println(article.getDescription());
+                    //rezolvat link-uri
 
-                    }
+                }
                 rssArticles.add(article);
-                article=new Article();
+                article = new Article();
             }
 
         } catch (Exception e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
 
+    }
+
+    public void readRSSFeed(String urlAddress) {
+        try {
+            URL rssUrl = new URL(urlAddress);
+            BufferedReader in = new BufferedReader(new InputStreamReader(rssUrl.openStream()));
+            String lines;
+            Article article = new Article();
+            int contorArticol = 0;
+            lines = in.readLine();
+            String page = "";
+            while ((lines = in.readLine()) != null) {
+                page += lines;
+            }
+            List<String> contents = new ArrayList<>(Arrays.asList(page.split("<item>")));
+            contents.remove(0);
+            //for(int contor = 0; contor< contents.size(); contor++)
+            //System.out.println(contents.get(contor));
+            int firstPos;
+            int lastPos;
+            String temp = "";
+            for (String line : contents) {
+                System.out.println();
+                firstPos = line.indexOf("<title>");
+                if(firstPos != -1) {
+                    lastPos = line.indexOf("</title>");
+                    temp = line.substring(firstPos + "<title>".length(), lastPos);
+                    temp = temp.replace("<![CDATA[", "");
+                    temp = temp.replace("]]>", "");
+                    System.out.println(temp);
+                    article.setTitle(temp);
+                }
+
+                firstPos = line.indexOf("<link>");
+                if(firstPos != -1) {
+                    lastPos = line.indexOf("</link");
+                    temp = line.substring(firstPos + "<link>".length(), lastPos);
+                    System.out.println(temp);
+                    article.setLink(temp);
+                }
+
+                firstPos = line.indexOf("<description>");
+                if(firstPos != -1) {
+                    lastPos = line.indexOf("</description>");
+                    temp = line.substring(firstPos + "<description>".length(), lastPos);
+                    temp = temp.replace("<![CDATA[", "");
+                    temp = temp.replace("]]>", "");
+
+                    if (urlAddress.contains("protv")) {
+                        firstPos = temp.indexOf("/&gt;");
+                        temp = temp.substring(firstPos + "/&gt;".length(), temp.length() - 1);
+
+                    }
+
+                    if (urlAddress.contains("mkyong")) {
+                        firstPos = temp.indexOf("<p>");
+                        lastPos = temp.indexOf(".");
+                        temp = temp.substring(firstPos + "<p>".length(), lastPos + 1);
+
+                    }
+
+                    if (urlAddress.contains("filelist")) {
+
+                    }
+
+                    if (urlAddress.contains("javapapers")) {
+                        temp = temp.replace(" [&#8230;]", "");
+
+                    }
+                    System.out.println(temp);
+                    article.setDescription(temp);
+                    rssArticles.add(article);
+                    article = new Article();
+                }
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-
+    }
 }
