@@ -1,9 +1,7 @@
 package RSS;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
@@ -14,11 +12,7 @@ import java.util.List;
 
 
 public class RSSReader {
-    private List<Article> rssArticles = new LinkedList<>();
 
-    public List<Article> getRssArticles() {
-        return rssArticles;
-    }
 
     public static void main(String[] args) {
         for (int i = 0; i < 1; i++) {
@@ -26,10 +20,6 @@ public class RSSReader {
             //test.rssRedditFeed( null,null,null );
             test.readRSSFeed("https://mkyong.com/feed/");
         }
-    }
-
-    public void clear() {
-        rssArticles = new LinkedList<>();
     }
 
     /*
@@ -100,7 +90,8 @@ public class RSSReader {
     */
 
 
-    public void rssRedditFeed(String subreddit, String searchType, String timePeriod) {
+    public List<Article> rssRedditFeed(String subreddit, String searchType, String timePeriod) {
+        List<Article> rssArticles = new LinkedList<>();
         String urlAddress;
         if (subreddit != null) {
             if (searchType == null)
@@ -152,7 +143,6 @@ public class RSSReader {
                     System.out.println(article.getLink());
                 }
 
-                firstPos = -1;
                 firstPos = line.indexOf("https://i.");
                 if (firstPos == -1)
                     System.out.println("nu are imagine");
@@ -164,7 +154,6 @@ public class RSSReader {
                     System.out.println(article.getImageURL());
                 }
 
-                firstPos = -1;
                 firstPos = line.indexOf("md&quot;&gt;&lt;p&gt;");
                 if (firstPos == -1)
                     System.out.println("nu are descriere");
@@ -194,17 +183,17 @@ public class RSSReader {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return rssArticles;
     }
 
-    public void readRSSFeed(String urlAddress) {
+    public static List<Article> readRSSFeed(String urlAddress) {
+        List<Article> rssArticles = new LinkedList<>();
         try {
             URL rssUrl = new URL(urlAddress);
             BufferedReader in = new BufferedReader(new InputStreamReader(rssUrl.openStream()));
             String lines;
             Article article = new Article();
-            int contorArticol = 0;
-            lines = in.readLine();
+
             String page = "";
             while ((lines = in.readLine()) != null) {
                 page += lines;
@@ -215,7 +204,7 @@ public class RSSReader {
             //System.out.println(contents.get(contor));
             int firstPos;
             int lastPos;
-            String temp = "";
+            String temp;
             for (String line : contents) {
                 System.out.println();
                 firstPos = line.indexOf("<title>");
@@ -256,10 +245,6 @@ public class RSSReader {
 
                     }
 
-                    if (urlAddress.contains("filelist")) {
-
-                    }
-
                     if (urlAddress.contains("javapapers")) {
                         temp = temp.replace(" [&#8230;]", "");
 
@@ -270,11 +255,9 @@ public class RSSReader {
                     article = new Article();
                 }
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return rssArticles;
     }
 }

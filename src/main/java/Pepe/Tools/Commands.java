@@ -66,8 +66,8 @@ public class Commands extends ListenerAdapter {
         if(args[0].equalsIgnoreCase( Main.prefix + "javapapers")){
             event.getMessage().delete().queue();
 
-            ArticleManager.setSite("javapapers" );
-            EmbedBuilder info = ArticleManager.newPage("https://javapapers.com/category/java/feed/");
+            ArticleManager.setSite("https://javapapers.com/category/java/feed/" );
+            EmbedBuilder info = ArticleManager.rssPage("https://javapapers.com/category/java/feed/",0);
 
             event.getChannel().sendMessage(info.build()).queue(message -> {
                                                         message.addReaction("⬅️").queue();
@@ -81,7 +81,7 @@ public class Commands extends ListenerAdapter {
 
             event.getMessage().delete().queue();
             ArticleManager.setSite( "mkyong" );
-            EmbedBuilder info = ArticleManager.newPage("https://mkyong.com/feed/");
+            EmbedBuilder info = ArticleManager.rssPage("https://mkyong.com/feed/",0);
 
             event.getChannel().sendMessage(info.build()).queue(message -> {
                 message.addReaction("⬅️").queue();
@@ -91,6 +91,7 @@ public class Commands extends ListenerAdapter {
             info.clear();
         }
 
+        /*
         if(args[0].equalsIgnoreCase( Main.prefix + "reddit" )){
             event.getMessage().delete().queue();
             ArticleManager.getMyReader().clear();
@@ -123,6 +124,8 @@ public class Commands extends ListenerAdapter {
                 message.addReaction("❌"   ).queue();
             });
         }
+        */
+
 
     }
 

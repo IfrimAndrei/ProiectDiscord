@@ -5,6 +5,7 @@ import RSS.RSSReader;
 import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.awt.*;
+import java.util.List;
 
 public class ArticleManager {
     private static RSSReader myReader = new RSSReader();
@@ -35,14 +36,15 @@ public class ArticleManager {
         ArticleManager.myReader = myReader;
     }
 
-
+/*
     public static EmbedBuilder newPage(String UrlAdress){
         myReader.clear();
         myReader.readRSSFeed( UrlAdress );
         pageNumber=0;
         return rssPage(pageNumber);
     }
-
+*/
+    /*
     public static EmbedBuilder nextPage(){
         if(pageNumber==myReader.getRssArticles().size()-1)
             pageNumber=0;
@@ -50,6 +52,8 @@ public class ArticleManager {
             pageNumber++;
         return rssPage( pageNumber );
     }
+    */
+     /*
     public static EmbedBuilder previousPage(){
         if(pageNumber==0)
             pageNumber=myReader.getRssArticles().size()-1;
@@ -57,9 +61,18 @@ public class ArticleManager {
             pageNumber--;
         return rssPage( pageNumber );
     }
+    */
+    public static EmbedBuilder rssPage( String urlAddress, int page){
 
-    public static EmbedBuilder rssPage(int page){
-        Article myArticle = myReader.getRssArticles().get(page);
+        List<Article> articles = RSSReader.readRSSFeed(urlAddress);
+        if(page == -1){
+            page = articles.size()-1;
+        }
+        if(page == articles.size())
+        {
+            page = 0;
+        }
+        Article myArticle = articles.get(page);
         EmbedBuilder info = new EmbedBuilder();
         info.setColor( new Color( 231, 190, 76 ) );
 
@@ -77,7 +90,7 @@ public class ArticleManager {
             info.setDescription( myArticle.getDescription() + '\n' + myArticle.getLink()  );
         else
             info.setDescription( myArticle.getLink() );
-        info.setFooter( site );
+        info.setFooter( site + " " + page);
 
         return info;
     }
