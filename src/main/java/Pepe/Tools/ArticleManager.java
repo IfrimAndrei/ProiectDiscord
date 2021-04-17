@@ -43,12 +43,18 @@ public class ArticleManager {
         return rssPage(pageNumber);
     }
 
-    public static EmbedBuilder nextPage(){ //TODO add constraints, sa nu poata iesi din lista
-        pageNumber++;
+    public static EmbedBuilder nextPage(){
+        if(pageNumber==myReader.getRssArticles().size()-1)
+            pageNumber=0;
+        else
+            pageNumber++;
         return rssPage( pageNumber );
     }
-    public static EmbedBuilder previousPage(){  //TODO add constraints, sa nu poata iesi din lista
-        pageNumber--;
+    public static EmbedBuilder previousPage(){
+        if(pageNumber==0)
+            pageNumber=myReader.getRssArticles().size()-1;
+        else
+            pageNumber--;
         return rssPage( pageNumber );
     }
 
