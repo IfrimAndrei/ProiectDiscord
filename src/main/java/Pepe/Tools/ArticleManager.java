@@ -8,26 +8,6 @@ import java.awt.*;
 import java.util.List;
 
 public class ArticleManager {
-    private static RSSReader myReader = new RSSReader();
-    private static int pageNumber;
-
-    public static int getPageNumber( ) {
-        return pageNumber;
-    }
-
-    public static void setPageNumber(int pageNumber) {
-        ArticleManager.pageNumber = pageNumber;
-    }
-
-    public static RSSReader getMyReader( ) {
-        return myReader;
-    }
-
-    public static void setMyReader(RSSReader myReader) {
-        ArticleManager.myReader = myReader;
-    }
-
-
     public static EmbedBuilder rssPage( String urlAddress, int page){
         List<Article> articles;
         if(urlAddress.contains("www.reddit"))

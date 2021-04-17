@@ -1,5 +1,5 @@
 package Pepe.Tools;
-import RSS.Article;
+
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -114,7 +114,7 @@ public class Commands extends ListenerAdapter {
             else{
                 event.getChannel().sendMessage("Too many arguments.").queue();
             }
-            ArticleManager.setPageNumber( 0 );
+
             EmbedBuilder info = ArticleManager.rssPage(redditAddress,0);
 
 

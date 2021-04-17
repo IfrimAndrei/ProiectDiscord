@@ -22,12 +22,11 @@ public class GuildMessageReaction extends ListenerAdapter {
             for ( Message m  : messageHistory) {
                 if (m.getId().equals(event.getMessageId())) {
                     for (MessageEmbed l : m.getEmbeds()) {
-                        //System.out.println(l.getFooter().getText());
+
                         String messageInfo = l.getFooter().getText();
                         tempLink = messageInfo.substring(0, messageInfo.indexOf(" "));
                         tempNumber = Integer.parseInt(messageInfo.substring(messageInfo.indexOf(" ") + 1));
-                        //System.out.println();
-                        //System.out.println(tempNumber + " " + tempLink);
+
                     }
                     break;
                 }
@@ -45,12 +44,11 @@ public class GuildMessageReaction extends ListenerAdapter {
             for ( Message m  : messageHistory) {
                 if (m.getId().equals(event.getMessageId())) {
                     for (MessageEmbed l : m.getEmbeds()) {
-                        //System.out.println(l.getFooter().getText());
+
                         String messageInfo = l.getFooter().getText();
                         tempLink = messageInfo.substring(0, messageInfo.indexOf(" "));
                         tempNumber = Integer.parseInt(messageInfo.substring(messageInfo.indexOf(" ") + 1));
-                        //System.out.println();
-                        //System.out.println(tempNumber + " " + tempLink);
+
                     }
                     break;
                 }
@@ -59,7 +57,7 @@ public class GuildMessageReaction extends ListenerAdapter {
             event.getChannel().editMessageById( event.getMessageId(),info.build() ).queue();
             long endTime = System.nanoTime();
 
-            long duration = (endTime - startTime)/100000000;  //divide by 1000000 to get milliseconds.
+            long duration = (endTime - startTime)/100000000;
             System.out.println(duration);
         }
         if(event.getReactionEmote().getName().equals("❌") && !event.getMember().getUser().equals(event.getJDA().getSelfUser())) {
@@ -78,12 +76,11 @@ public class GuildMessageReaction extends ListenerAdapter {
             for ( Message m  : messageHistory) {
                 if (m.getId().equals(event.getMessageId())) {
                     for (MessageEmbed l : m.getEmbeds()) {
-                        //System.out.println(l.getFooter().getText());
+
                         String messageInfo = l.getFooter().getText();
                         tempLink = messageInfo.substring(0, messageInfo.indexOf(" "));
                         tempNumber = Integer.parseInt(messageInfo.substring(messageInfo.indexOf(" ") + 1));
-                        //System.out.println();
-                        //System.out.println(tempNumber + " " + tempLink);
+
                     }
                     break;
                 }
@@ -100,12 +97,11 @@ public class GuildMessageReaction extends ListenerAdapter {
             for ( Message m  : messageHistory) {
                 if (m.getId().equals(event.getMessageId())) {
                     for (MessageEmbed l : m.getEmbeds()) {
-                        //System.out.println(l.getFooter().getText());
+
                         String messageInfo = l.getFooter().getText();
                         tempLink = messageInfo.substring(0, messageInfo.indexOf(" "));
                         tempNumber = Integer.parseInt(messageInfo.substring(messageInfo.indexOf(" ") + 1));
-                        //System.out.println();
-                        //System.out.println(tempNumber + " " + tempLink);
+
                     }
                     break;
                 }

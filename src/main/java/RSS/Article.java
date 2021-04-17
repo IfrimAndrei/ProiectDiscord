@@ -5,7 +5,6 @@ public class Article {
     private String link;
     private String description;
     private String imageURL;
-    private String site;
 
 
     @Override
@@ -15,14 +14,6 @@ public class Article {
                 ", link='" + link + '\'' +
                 ", description='" + description + '\'' +
                 '}';
-    }
-
-    public String getSite( ) {
-        return site;
-    }
-
-    public void setSite(String site) {
-        this.site = site;
     }
 
     public String getImageURL( ) {

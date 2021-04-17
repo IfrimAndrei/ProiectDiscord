@@ -15,11 +15,7 @@ public class RSSReader {
 
 
     public static void main(String[] args) {
-        for (int i = 0; i < 1; i++) {
-            RSSReader test = new RSSReader();
-            //test.rssRedditFeed( null,null,null );
-            test.readRSSFeed("https://mkyong.com/feed/");
-        }
+
     }
 
     public static List<Article> rssRedditFeed(String urlAddress) {
@@ -50,19 +46,20 @@ public class RSSReader {
                 article.setTitle(line.substring(firstPos + "<title>".length(), lastPos));
                 System.out.println(article.getTitle());
 
-                /*
-                if (subreddit != null) {
-                    String webPage = "https://www.reddit.com/r/" + subreddit + "/comments";
-                    firstPos = line.indexOf(webPage);
-                    temp = line.substring(firstPos);
-                    lastPos = temp.indexOf("&quot");
-                    temp = temp.substring(0, lastPos);
-                    article.setLink(temp);
-                    System.out.println(article.getLink());
-                }
+            String subreddit = urlAddress.substring( urlAddress.indexOf( "/r/" ) +3 );
+            subreddit = subreddit.substring ( 0, subreddit.indexOf( "/" ));
+            System.out.println(subreddit);
+            String webPage = "https://www.reddit.com/r/" + subreddit + "/comments";
+            firstPos = line.indexOf(webPage);
+            temp = line.substring(firstPos);
+            lastPos = temp.indexOf("&quot");
+            temp = temp.substring(0, lastPos);
+            article.setLink(temp);
+            System.out.println(article.getLink());
 
 
-                 */
+
+
                 firstPos = line.indexOf("https://i.");
                 if (firstPos == -1)
                     System.out.println("nu are imagine");
@@ -93,7 +90,7 @@ public class RSSReader {
                     temp = temp.replace("&amp;#39;", "'");
                     article.setDescription(temp);
                     System.out.println(article.getDescription());
-                    //rezolvat link-uri
+
 
                 }
                 rssArticles.add(article);
@@ -120,8 +117,8 @@ public class RSSReader {
             }
             List<String> contents = new ArrayList<>(Arrays.asList(page.split("<item>")));
             contents.remove(0);
-            //for(int contor = 0; contor< contents.size(); contor++)
-            //System.out.println(contents.get(contor));
+
+
             int firstPos;
             int lastPos;
             String temp;
