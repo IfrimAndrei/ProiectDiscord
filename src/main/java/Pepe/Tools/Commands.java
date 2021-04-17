@@ -66,7 +66,6 @@ public class Commands extends ListenerAdapter {
         if(args[0].equalsIgnoreCase( Main.prefix + "javapapers")){
             event.getMessage().delete().queue();
 
-            ArticleManager.setSite("https://javapapers.com/category/java/feed/" );
             EmbedBuilder info = ArticleManager.rssPage("https://javapapers.com/category/java/feed/",0);
 
             event.getChannel().sendMessage(info.build()).queue(message -> {
@@ -80,7 +79,6 @@ public class Commands extends ListenerAdapter {
         if(args[0].equalsIgnoreCase( Main.prefix + "mkyong")){
 
             event.getMessage().delete().queue();
-            ArticleManager.setSite( "mkyong" );
             EmbedBuilder info = ArticleManager.rssPage("https://mkyong.com/feed/",0);
 
             event.getChannel().sendMessage(info.build()).queue(message -> {
@@ -91,31 +89,33 @@ public class Commands extends ListenerAdapter {
             info.clear();
         }
 
-        /*
+
         if(args[0].equalsIgnoreCase( Main.prefix + "reddit" )){
             event.getMessage().delete().queue();
-            ArticleManager.getMyReader().clear();
-            ArticleManager.setSite( "reddit" );
-
+            String redditAddress = "";
 
             if(args.length==4) {
-                ArticleManager.getMyReader().rssRedditFeed( args[1], args[2], args[3] );
+                 redditAddress = createRedditAddress( args[1], args[2], args[3] );
+
             }
             else if(args.length==3) {
-                ArticleManager.getMyReader().rssRedditFeed( args[1], args[2], null );
+                redditAddress = createRedditAddress( args[1], args[2], null );
+
             }
             else if(args.length==2) {
-                ArticleManager.getMyReader().rssRedditFeed( args[1], null, null );
+                redditAddress = createRedditAddress( args[1], null, null );
+
             }
             else if(args.length==1){
                 event.getChannel().sendMessage("For better details add a subreddit in the command.").queue();
-                ArticleManager.getMyReader().rssRedditFeed( null,null,null );
+                redditAddress = createRedditAddress( null, null, null );
+
             }
             else{
                 event.getChannel().sendMessage("Too many arguments.").queue();
             }
             ArticleManager.setPageNumber( 0 );
-            EmbedBuilder info = ArticleManager.rssPage( 0 );
+            EmbedBuilder info = ArticleManager.rssPage(redditAddress,0);
 
 
             event.getChannel().sendMessage(info.build()).queue(message -> {
@@ -124,11 +124,28 @@ public class Commands extends ListenerAdapter {
                 message.addReaction("❌"   ).queue();
             });
         }
-        */
+
 
 
     }
-
+    public String createRedditAddress(String subreddit, String searchType, String timePeriod){
+        String urlAddress;
+        if (subreddit != null) {
+            if (searchType == null)
+                searchType = "hot";
+            urlAddress = "https://www.reddit.com/r/";
+            urlAddress += subreddit;
+            urlAddress += "/" + searchType;
+            urlAddress += "/.rss";
+            if (searchType.equals("top") && timePeriod != null) {
+                urlAddress += "?t=" + timePeriod;
+            }
+        } else {
+            urlAddress = "https://www.reddit.com/.rss";
+        }
+        System.out.println(urlAddress);
+        return urlAddress;
+    }
 
 
 }

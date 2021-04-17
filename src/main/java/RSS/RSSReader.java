@@ -22,91 +22,8 @@ public class RSSReader {
         }
     }
 
-    /*
-    public void readRSSFeed2(String urlAddress) {
-        try {
-            URL rssUrl = new URL(urlAddress);
-            BufferedReader in = new BufferedReader(new InputStreamReader(rssUrl.openStream()));
-
-            String line;
-            Article article = new Article();
-            int articlePieces = 0;
-            while ((line = in.readLine()) != null) {
-                if (line.contains("<title>")) {
-                    articlePieces++;
-                    //System.out.println(line);
-                    int firstPos = line.indexOf("<title>");
-                    String temp = line.substring(firstPos);
-                    temp = temp.replace("<title>", "");
-                    int lastPos = temp.indexOf("</title>");
-                    temp = temp.substring(0, lastPos);
-
-                    article.setTitle(temp);
-                } else if (line.contains("<link>")) {
-                    articlePieces++;
-                    //System.out.println(line);
-                    int firstPos = line.indexOf("<link>");
-                    String temp = line.substring(firstPos);
-                    temp = temp.replace("<link>", "");
-                    int lastPos = temp.indexOf("</link>");
-                    temp = temp.substring(0, lastPos);
-
-                    article.setLink(temp);
-                } else if (line.contains("<description>")) {
-                    articlePieces++;
-                    //System.out.println(line);
-                    int firstPos = line.indexOf("<description>");
-                    String temp = line.substring(firstPos);
-                    temp = temp.replace("<description><![CDATA[", "");
-                    //int lastPos = temp.indexOf("</description>");
-                    //temp = temp.substring(0,lastPos+1);
-                    temp = temp.replace("[&#8230;]", "");//...
-                    temp = temp.replace("</p>", "");
-                    temp = temp.replace("<p>", "");
-                    temp = temp.replace("</description>", "");
-                    temp = temp.replace("]]>", "");
-                    article.setDescription(temp);
-                }
-                if (articlePieces == 3) {
-                    rssArticles.add(article);
-                    article = new Article();
-                    articlePieces = 0;
-                }
-            }
-            in.close();
-            for (int i = 0; i <= 5; i++)
-                System.out.println("\n");
-            for (Article art : rssArticles) {
-                System.out.println(art);
-            }
-
-        } catch (MalformedURLException ue) {
-            System.out.println("Malformed URL");
-        } catch (IOException ioe) {
-            System.out.println("Something went wrong reading the contents");
-        }
-
-    }
-    */
-
-
-    public List<Article> rssRedditFeed(String subreddit, String searchType, String timePeriod) {
+    public static List<Article> rssRedditFeed(String urlAddress) {
         List<Article> rssArticles = new LinkedList<>();
-        String urlAddress;
-        if (subreddit != null) {
-            if (searchType == null)
-                searchType = "hot";
-            urlAddress = "https://www.reddit.com/r/";
-            urlAddress += subreddit;
-            urlAddress += "/" + searchType;
-            urlAddress += "/.rss";
-            if (searchType.equals("top") && timePeriod != null) {
-                urlAddress += "?t=" + timePeriod;
-            }
-        } else {
-            urlAddress = "https://www.reddit.com/.rss";
-        }
-        System.out.println(urlAddress);
 
         String page;
         Article article = new Article();
@@ -133,6 +50,7 @@ public class RSSReader {
                 article.setTitle(line.substring(firstPos + "<title>".length(), lastPos));
                 System.out.println(article.getTitle());
 
+                /*
                 if (subreddit != null) {
                     String webPage = "https://www.reddit.com/r/" + subreddit + "/comments";
                     firstPos = line.indexOf(webPage);
@@ -143,6 +61,8 @@ public class RSSReader {
                     System.out.println(article.getLink());
                 }
 
+
+                 */
                 firstPos = line.indexOf("https://i.");
                 if (firstPos == -1)
                     System.out.println("nu are imagine");

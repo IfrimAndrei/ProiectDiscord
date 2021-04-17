@@ -9,7 +9,6 @@ import java.util.List;
 
 public class ArticleManager {
     private static RSSReader myReader = new RSSReader();
-    private static String site;
     private static int pageNumber;
 
     public static int getPageNumber( ) {
@@ -20,14 +19,6 @@ public class ArticleManager {
         ArticleManager.pageNumber = pageNumber;
     }
 
-    public static String getSite( ) {
-        return site;
-    }
-
-    public static void setSite(String site) {
-        ArticleManager.site = site;
-    }
-
     public static RSSReader getMyReader( ) {
         return myReader;
     }
@@ -36,35 +27,14 @@ public class ArticleManager {
         ArticleManager.myReader = myReader;
     }
 
-/*
-    public static EmbedBuilder newPage(String UrlAdress){
-        myReader.clear();
-        myReader.readRSSFeed( UrlAdress );
-        pageNumber=0;
-        return rssPage(pageNumber);
-    }
-*/
-    /*
-    public static EmbedBuilder nextPage(){
-        if(pageNumber==myReader.getRssArticles().size()-1)
-            pageNumber=0;
-        else
-            pageNumber++;
-        return rssPage( pageNumber );
-    }
-    */
-     /*
-    public static EmbedBuilder previousPage(){
-        if(pageNumber==0)
-            pageNumber=myReader.getRssArticles().size()-1;
-        else
-            pageNumber--;
-        return rssPage( pageNumber );
-    }
-    */
-    public static EmbedBuilder rssPage( String urlAddress, int page){
 
-        List<Article> articles = RSSReader.readRSSFeed(urlAddress);
+    public static EmbedBuilder rssPage( String urlAddress, int page){
+        List<Article> articles;
+        if(urlAddress.contains("www.reddit"))
+           articles = RSSReader.rssRedditFeed(urlAddress);
+        else {
+           articles = RSSReader.readRSSFeed(urlAddress);
+        }
         if(page == -1){
             page = articles.size()-1;
         }
@@ -76,12 +46,12 @@ public class ArticleManager {
         EmbedBuilder info = new EmbedBuilder();
         info.setColor( new Color( 231, 190, 76 ) );
 
-        if( site.equals( "javapapers" ) )
+        if( urlAddress.contains( "javapapers" ) )
             info.setThumbnail( "https://javapapers.com/favicon-32x32.png?v=261118" );
-        else if ( site.equals( "mkyong" ) ){
+        else if ( urlAddress.contains( "mkyong" ) ){
             info.setThumbnail( "https://i.pinimg.com/originals/41/df/26/41df26f532af6e8cfddc2b217e096c49.png" );
         }
-        else if (site.equals( "reddit" ) ){
+        else if (urlAddress.contains( "reddit" ) ){
             info.setThumbnail( "https://upload.wikimedia.org/wikipedia/ro/thumb/b/b4/Reddit_logo.svg/1200px-Reddit_logo.svg.png" );
         }
         info.setImage( myArticle.getImageURL());
@@ -90,7 +60,7 @@ public class ArticleManager {
             info.setDescription( myArticle.getDescription() + '\n' + myArticle.getLink()  );
         else
             info.setDescription( myArticle.getLink() );
-        info.setFooter( site + " " + page);
+        info.setFooter(urlAddress + " " + page);
 
         return info;
     }
