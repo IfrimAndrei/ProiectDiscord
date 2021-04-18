@@ -34,9 +34,13 @@ public class RSSReader {
             URL rssUrl = new URL(urlAddress);
             URLConnection con = rssUrl.openConnection();
             con.setRequestProperty("User-Agent", "Chrome");//Error 429 otherwise
+            try {
+                BufferedReader in = new BufferedReader( new InputStreamReader( con.getInputStream(), StandardCharsets.UTF_8 ) );
+                page = in.readLine();
+            }catch (Exception e) {
+                return null;
+            }
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
-            page = in.readLine();
             //System.out.println( line );
 
 
@@ -56,8 +60,9 @@ public class RSSReader {
             String subreddit = urlAddress.substring( urlAddress.indexOf( "/r/" ) +3 );
             subreddit = subreddit.substring ( 0, subreddit.indexOf( "/" ));
             System.out.println(subreddit);
-            String webPage = "https://www.reddit.com/r/" + subreddit + "/comments";
-            firstPos = line.indexOf(webPage);
+            String webPage = "/comments";
+            String subredditUrl = "https://www.reddit.com/r/" + subreddit ;
+            firstPos = line.indexOf(webPage )- subredditUrl.length();
             temp = line.substring(firstPos);
             lastPos = temp.indexOf("&quot");
             temp = temp.substring(0, lastPos);

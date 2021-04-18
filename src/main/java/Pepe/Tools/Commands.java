@@ -242,18 +242,21 @@ public class Commands extends ListenerAdapter {
             }
 
             EmbedBuilder info = ArticleManager.getPage(redditAddress,0,true);
-
-
-            event.getChannel().sendMessage(info.build()).queue(message -> {
-                message.addReaction("⬅️").queue();
-                message.addReaction("➡️").queue();
-                message.addReaction("❌"   ).queue();
-            });
+            if(info==null)
+                event.getChannel().sendMessage("Error! Subreddit not found.").queue();
+            else{
+                event.getChannel().sendMessage(info.build()).queue(message -> {
+                    message.addReaction("⬅️").queue();
+                    message.addReaction("➡️").queue();
+                    message.addReaction("❌"   ).queue();
+                });
+            }
         }
 
 
 
     }
+
     public String createRedditAddress(String subreddit, String searchType, String timePeriod){
         String urlAddress;
         if (subreddit != null) {

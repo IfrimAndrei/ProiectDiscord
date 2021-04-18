@@ -17,14 +17,21 @@ public class ArticleManager {
             articles = adressArticles.get( urlAddress );
         }
         else{
-            if(urlAddress.contains("www.reddit"))
-                articles = RSSReader.rssRedditFeed(urlAddress);
+            if(urlAddress.contains("www.reddit")) {
+                articles = RSSReader.rssRedditFeed( urlAddress );
+                if(articles==null)
+                {
+                    return null;
+                }
+            }
             else {
                 articles = RSSReader.readRSSFeed(urlAddress);
+
             }
             adressArticles.put(urlAddress,articles);
             articles = adressArticles.get( urlAddress );
         }
+
         return rssPage (urlAddress,page,articles);
 
     }
