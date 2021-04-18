@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class RSSReader {
+public class RssReader {
 
 
     public static void main(String[] args) {
@@ -24,7 +24,7 @@ public class RSSReader {
         }
     }
 
-    public static List<Article> rssRedditFeed(String urlAddress) {
+    public static List<Article> readRedditFeed(String urlAddress) {
         List<Article> rssArticles = new LinkedList<>();
 
         String page;
@@ -40,9 +40,6 @@ public class RSSReader {
             }catch (Exception e) {
                 return null;
             }
-
-            //System.out.println( line );
-
 
             List<String> contents = new ArrayList<>(Arrays.asList(page.split("<author>")));
             contents.remove(0);

@@ -1,7 +1,6 @@
 package Pepe.Tools;
 
 import Datatypes.ArticleManager;
-import RSS.RSSReader;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -18,10 +17,8 @@ public class Commands extends ListenerAdapter {
         }
 
         if(args[0].equals( "wait") && args[1].equals( "what" )){
-
             Collection<Message> messages = event.getChannel().getHistory().retrievePast(2).complete();
-            event
-                    .getChannel().deleteMessages( messages ).queue();
+            event.getChannel().deleteMessages( messages ).queue();
         }
 
         if(args[0].equals( Main.prefix + "clear")){
@@ -40,7 +37,6 @@ public class Commands extends ListenerAdapter {
 
             }
         }
-
         if(args[0].equalsIgnoreCase( Main.prefix + "info" )){
             EmbedBuilder info = new EmbedBuilder();
             info.setTitle("Pepe Bot Info");
@@ -92,128 +88,71 @@ public class Commands extends ListenerAdapter {
                 event.getChannel().sendMessage("Invalid number of arguments").queue();
             }
             else {
-                event.getMessage().delete().queue();
+                String youtubeLink = null;
+
                 if(args[1].equalsIgnoreCase("LinusTechTips")) {
 
-                    EmbedBuilder info = ArticleManager.getPage("https://www.youtube.com/feeds/videos.xml?channel_id=UCXuqSBlHAE6Xw-yeJA0Tunw", 0, true);
-                    event.getChannel().sendMessage(info.build()).queue(message -> {
-                        message.addReaction("⬅️").queue();
-                        message.addReaction("➡️").queue();
-                        message.addReaction("❌").queue();
-                    });
+                    youtubeLink = "https://www.youtube.com/feeds/videos.xml?channel_id=UCXuqSBlHAE6Xw-yeJA0Tunw";
                 }
                 if(args[1].equalsIgnoreCase("GMHikaru")){
-                    EmbedBuilder info = ArticleManager.getPage("https://www.youtube.com/feeds/videos.xml?channel_id=UCweCc7bSMX5J4jEH7HFImng", 0, true);
-                    event.getChannel().sendMessage(info.build()).queue(message -> {
-                        message.addReaction("⬅️").queue();
-                        message.addReaction("➡️").queue();
-                        message.addReaction("❌").queue();
-                    });
+                    youtubeLink = "https://www.youtube.com/feeds/videos.xml?channel_id=UCweCc7bSMX5J4jEH7HFImng";
                 }
                 if(args[1].equalsIgnoreCase("OrdinaryThings")){
-                    EmbedBuilder info = ArticleManager.getPage("https://www.youtube.com/feeds/videos.xml?channel_id=UCxLYtICsUCWdr1YPrj5DtwA", 0, true);
-                    event.getChannel().sendMessage(info.build()).queue(message -> {
-                        message.addReaction("⬅️").queue();
-                        message.addReaction("➡️").queue();
-                        message.addReaction("❌").queue();
-                    });
+
+                    youtubeLink = "https://www.youtube.com/feeds/videos.xml?channel_id=UCxLYtICsUCWdr1YPrj5DtwA";
                 }
                 if(args[1].equalsIgnoreCase("thenewboston")){
-                    EmbedBuilder info = ArticleManager.getPage("https://www.youtube.com/feeds/videos.xml?channel_id=UCJbPGzawDH1njbqV-D5HqKw", 0, true);
-                    event.getChannel().sendMessage(info.build()).queue(message -> {
-                        message.addReaction("⬅️").queue();
-                        message.addReaction("➡️").queue();
-                        message.addReaction("❌").queue();
-                    });
+
+                    youtubeLink = "https://www.youtube.com/feeds/videos.xml?channel_id=UCJbPGzawDH1njbqV-D5HqKw";
                 }
                 if(args[1].equalsIgnoreCase("AbdulBari")){
-                    EmbedBuilder info = ArticleManager.getPage("https://www.youtube.com/feeds/videos.xml?channel_id=UCZCFT11CWBi3MHNlGf019nw", 0, true);
-                    event.getChannel().sendMessage(info.build()).queue(message -> {
-                        message.addReaction("⬅️").queue();
-                        message.addReaction("➡️").queue();
-                        message.addReaction("❌").queue();
-                    });
+                    youtubeLink ="https://www.youtube.com/feeds/videos.xml?channel_id=UCZCFT11CWBi3MHNlGf019nw";
                 }
+
+                if(youtubeLink!=null) {
+                    createArticle( youtubeLink, event );
+                }
+                else{
+                    event.getChannel().sendMessage("Error! YouTube channel not found.").queue();
+                }
+
             }
         }
 
 
         if(args[0].equalsIgnoreCase( Main.prefix + "javapapers")){
 
-
-            EmbedBuilder info = ArticleManager.getPage("https://javapapers.com/category/java/feed/",0,true);
-
-            event.getChannel().sendMessage(info.build()).queue(message -> {
-                                                        message.addReaction("⬅️").queue();
-                                                        message.addReaction("➡️").queue();
-                                                        message.addReaction("❌"   ).queue();
-                                                        });
-
+            createArticle("https://javapapers.com/category/java/feed/",event);
         }
 
         if(args[0].equalsIgnoreCase( Main.prefix + "mkyong")){
 
-            ;
-            EmbedBuilder info = ArticleManager.getPage("https://mkyong.com/feed/",0,true);
-
-            event.getChannel().sendMessage(info.build()).queue(message -> {
-                message.addReaction("⬅️").queue();
-                message.addReaction("➡️").queue();
-                message.addReaction("❌"   ).queue();
-            });
+            createArticle( "https://mkyong.com/feed/", event );
         }
 
         if(args[0].equalsIgnoreCase( Main.prefix + "javacodegeeks")){
 
-
-            EmbedBuilder info = ArticleManager.getPage("https://www.javacodegeeks.com/feed",0,true);
-
-            event.getChannel().sendMessage(info.build()).queue(message -> {
-                message.addReaction("⬅️").queue();
-                message.addReaction("➡️").queue();
-                message.addReaction("❌"   ).queue();
-            });
-
+            createArticle("https://www.javacodegeeks.com/feed",event);
         }
 
         if(args[0].equalsIgnoreCase( Main.prefix + "awsamazon")){
 
-
-            EmbedBuilder info = ArticleManager.getPage("https://aws.amazon.com/blogs/developer/category/programing-language/java/feed/",0,true);
-
-            event.getChannel().sendMessage(info.build()).queue(message -> {
-                message.addReaction("⬅️").queue();
-                message.addReaction("➡️").queue();
-                message.addReaction("❌"   ).queue();
-            });
-
+            createArticle( "https://aws.amazon.com/blogs/developer/category/programing-language/java/feed/",event );
         }
 
         if(args[0].equalsIgnoreCase( Main.prefix + "stackabuse")){
 
-            EmbedBuilder info = ArticleManager.getPage("https://stackabuse.com/rss/",0,true);
-
-            event.getChannel().sendMessage(info.build()).queue(message -> {
-                message.addReaction("⬅️").queue();
-                message.addReaction("➡️").queue();
-                message.addReaction("❌"   ).queue();
-            });
-
+            createArticle("https://stackabuse.com/rss/",event);
         }
 
-        if(args[0].equalsIgnoreCase( Main.prefix + "freeSearch"))
-        {
+
+        if(args[0].equalsIgnoreCase( Main.prefix + "freeSearch")){
+
             if(args.length != 2){
                 event.getChannel().sendMessage("Invalid number of arguments").queue();
             }
             else{
-                EmbedBuilder info = ArticleManager.getPage(args[1],0,true);
-
-                event.getChannel().sendMessage(info.build()).queue(message -> {
-                    message.addReaction("⬅️").queue();
-                    message.addReaction("➡️").queue();
-                    message.addReaction("❌"   ).queue();
-                });
+                createArticle(args[1],event);
             }
         }
 
@@ -241,19 +180,9 @@ public class Commands extends ListenerAdapter {
                 event.getChannel().sendMessage("Too many arguments.").queue();
             }
 
-            EmbedBuilder info = ArticleManager.getPage(redditAddress,0,true);
-            if(info==null)
-                event.getChannel().sendMessage("Error! Subreddit not found.").queue();
-            else{
-                event.getChannel().sendMessage(info.build()).queue(message -> {
-                    message.addReaction("⬅️").queue();
-                    message.addReaction("➡️").queue();
-                    message.addReaction("❌"   ).queue();
-                });
-            }
+            createArticle(redditAddress,event);
+
         }
-
-
 
     }
 
@@ -274,6 +203,18 @@ public class Commands extends ListenerAdapter {
         }
         System.out.println(urlAddress);
         return urlAddress;
+    }
+    public void createArticle(String urlAddress,GuildMessageReceivedEvent event){
+        EmbedBuilder info = ArticleManager.getPage(urlAddress,0,true);
+        if(info==null)
+            event.getChannel().sendMessage("Error! Subreddit not found.").queue();
+        else{
+            event.getChannel().sendMessage(info.build()).queue(message -> {
+                message.addReaction("⬅️").queue();
+                message.addReaction("➡️").queue();
+                message.addReaction("❌"   ).queue();
+            });
+        }
     }
 
 

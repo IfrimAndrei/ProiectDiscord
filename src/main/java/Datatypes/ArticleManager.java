@@ -1,7 +1,6 @@
 package Datatypes;
 
-import Datatypes.Article;
-import RSS.RSSReader;
+import RSS.RssReader;
 import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.awt.*;
@@ -18,14 +17,14 @@ public class ArticleManager {
         }
         else{
             if(urlAddress.contains("www.reddit")) {
-                articles = RSSReader.rssRedditFeed( urlAddress );
+                articles = RssReader.readRedditFeed( urlAddress );
                 if(articles==null)
                 {
                     return null;
                 }
             }
             else {
-                articles = RSSReader.readRSSFeed(urlAddress);
+                articles = RssReader.readRSSFeed(urlAddress);
 
             }
             adressArticles.put(urlAddress,articles);
