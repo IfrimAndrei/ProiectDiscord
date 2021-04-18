@@ -1,4 +1,4 @@
-package RSS;
+package Datatypes;
 
 public class Article {
     private String title;

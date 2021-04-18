@@ -1,5 +1,6 @@
 package Pepe.Tools;
 
+import Datatypes.ArticleManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;

@@ -1,6 +1,6 @@
-package Pepe.Tools;
+package Datatypes;
 
-import RSS.Article;
+import Datatypes.Article;
 import RSS.RSSReader;
 import net.dv8tion.jda.api.EmbedBuilder;
 
