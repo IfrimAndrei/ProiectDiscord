@@ -17,7 +17,11 @@ public class RSSReader {
 
 
     public static void main(String[] args) {
-
+        List<Article> articles = readRSSFeed("https://www.youtube.com/feeds/videos.xml?channel_id=UCQeRaTukNYft1_6AZPACnog");
+        for(Article article : articles)
+        {
+            System.out.println(article);
+        }
     }
 
     public static List<Article> rssRedditFeed(String urlAddress) {
@@ -34,6 +38,7 @@ public class RSSReader {
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
             page = in.readLine();
             //System.out.println( line );
+
 
             List<String> contents = new ArrayList<>(Arrays.asList(page.split("<author>")));
             contents.remove(0);
@@ -117,7 +122,13 @@ public class RSSReader {
             while ((lines = in.readLine()) != null) {
                 page += lines;
             }
-            List<String> contents = new ArrayList<>(Arrays.asList(page.split("<item>")));
+
+            List<String> contents;
+            if(urlAddress.contains("www.youtube"))
+            contents = new ArrayList<>(Arrays.asList(page.split("<entry>")));
+            else{
+                contents = new ArrayList<>(Arrays.asList(page.split("<item>")));
+            }
             contents.remove(0);
 
 
@@ -142,6 +153,26 @@ public class RSSReader {
                     temp = line.substring(firstPos + "<link>".length(), lastPos);
                     System.out.println(temp);
                     article.setLink(temp);
+                }
+                else{
+                    if(urlAddress.contains("www.youtube") && line.contains("<link"))
+                    {
+                        firstPos = line.indexOf("href=\"");
+                        lastPos = line.indexOf("\"/>");
+                        temp = line.substring(firstPos + "href=\"".length(),lastPos);
+                        System.out.println(temp);
+                        article.setLink(temp);
+                    }
+                }
+                if(urlAddress.contains("www.youtube") && line.contains("<media:thumbnail"))
+                {
+                    firstPos=line.indexOf("<media:thumbnail url=\"");
+                    String tempThumbnail = line.substring(firstPos);
+                    firstPos=tempThumbnail.indexOf("<media:thumbnail url=\"");
+                    lastPos=tempThumbnail.indexOf("\" width");
+                    temp=tempThumbnail.substring(firstPos + "<media:thumbnail url=\"".length(),lastPos);
+                    System.out.println(temp);
+                    article.setImageURL(temp);
                 }
 
                 firstPos = line.indexOf("<description>");
@@ -168,8 +199,22 @@ public class RSSReader {
                         temp = temp.replace(" [&#8230;]", "");
 
                     }
+
+
                     System.out.println(temp);
                     article.setDescription(temp);
+                    rssArticles.add(article);
+                    article = new Article();
+                }
+                else{
+                    if(urlAddress.contains("www.youtube") && line.contains("<media:description>"))
+                    {
+                        firstPos = line.indexOf("<media:description>");
+                        lastPos = line.indexOf("</media:description>");
+                        temp = line.substring(firstPos + "<media:description>".length(),lastPos);
+                        System.out.println(temp);
+                        article.setDescription(temp);
+                    }
                     rssArticles.add(article);
                     article = new Article();
                 }

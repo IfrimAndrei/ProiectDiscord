@@ -1,6 +1,7 @@
 package Pepe.Tools;
 
 import Datatypes.ArticleManager;
+import RSS.RSSReader;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -56,16 +57,89 @@ public class Commands extends ListenerAdapter {
                                 ~commands
                                 ~info
                                 ~clear [integer]
+                            JavaBlogs:
                                 ~javapapers
                                 ~mkyong
+                                ~javacodegeeks
+                                ~awsamazon
+                                ~stackabuse
+                                ~knpcode
+                            Miscellaneous:
                                 ~reddit [subreddit_name] ...[extra]
+                                ~youtube
+                                ~youtube [youtuber_name]
+                                ~freeSearch [rss link]
                             And other secret commands :wink:
                             """
                                             ).queue();
         }
 
+        if(args[0].equalsIgnoreCase( Main.prefix + "youtube"))
+        {
+            if(args.length == 1)
+            {
+                event.getChannel().sendMessage( """
+                            Available youtube channel list:\s
+                              -  LinusTechTips
+                              -  OrdinaryThings
+                              -  thenewboston
+                              -  GMHikaru
+                              -  AbdulBari
+                            """
+                ).queue();
+            }
+            else if(args.length > 2){
+                event.getChannel().sendMessage("Invalid number of arguments").queue();
+            }
+            else {
+                event.getMessage().delete().queue();
+                if(args[1].equalsIgnoreCase("LinusTechTips")) {
+
+                    EmbedBuilder info = ArticleManager.getPage("https://www.youtube.com/feeds/videos.xml?channel_id=UCXuqSBlHAE6Xw-yeJA0Tunw", 0, true);
+                    event.getChannel().sendMessage(info.build()).queue(message -> {
+                        message.addReaction("⬅️").queue();
+                        message.addReaction("➡️").queue();
+                        message.addReaction("❌").queue();
+                    });
+                }
+                if(args[1].equalsIgnoreCase("GMHikaru")){
+                    EmbedBuilder info = ArticleManager.getPage("https://www.youtube.com/feeds/videos.xml?channel_id=UCweCc7bSMX5J4jEH7HFImng", 0, true);
+                    event.getChannel().sendMessage(info.build()).queue(message -> {
+                        message.addReaction("⬅️").queue();
+                        message.addReaction("➡️").queue();
+                        message.addReaction("❌").queue();
+                    });
+                }
+                if(args[1].equalsIgnoreCase("OrdinaryThings")){
+                    EmbedBuilder info = ArticleManager.getPage("https://www.youtube.com/feeds/videos.xml?channel_id=UCxLYtICsUCWdr1YPrj5DtwA", 0, true);
+                    event.getChannel().sendMessage(info.build()).queue(message -> {
+                        message.addReaction("⬅️").queue();
+                        message.addReaction("➡️").queue();
+                        message.addReaction("❌").queue();
+                    });
+                }
+                if(args[1].equalsIgnoreCase("thenewboston")){
+                    EmbedBuilder info = ArticleManager.getPage("https://www.youtube.com/feeds/videos.xml?channel_id=UCJbPGzawDH1njbqV-D5HqKw", 0, true);
+                    event.getChannel().sendMessage(info.build()).queue(message -> {
+                        message.addReaction("⬅️").queue();
+                        message.addReaction("➡️").queue();
+                        message.addReaction("❌").queue();
+                    });
+                }
+                if(args[1].equalsIgnoreCase("AbdulBari")){
+                    EmbedBuilder info = ArticleManager.getPage("https://www.youtube.com/feeds/videos.xml?channel_id=UCZCFT11CWBi3MHNlGf019nw", 0, true);
+                    event.getChannel().sendMessage(info.build()).queue(message -> {
+                        message.addReaction("⬅️").queue();
+                        message.addReaction("➡️").queue();
+                        message.addReaction("❌").queue();
+                    });
+                }
+            }
+        }
+
+
         if(args[0].equalsIgnoreCase( Main.prefix + "javapapers")){
-            event.getMessage().delete().queue();
+
 
             EmbedBuilder info = ArticleManager.getPage("https://javapapers.com/category/java/feed/",0,true);
 
@@ -79,7 +153,7 @@ public class Commands extends ListenerAdapter {
 
         if(args[0].equalsIgnoreCase( Main.prefix + "mkyong")){
 
-            event.getMessage().delete().queue();
+            ;
             EmbedBuilder info = ArticleManager.getPage("https://mkyong.com/feed/",0,true);
 
             event.getChannel().sendMessage(info.build()).queue(message -> {
@@ -87,12 +161,63 @@ public class Commands extends ListenerAdapter {
                 message.addReaction("➡️").queue();
                 message.addReaction("❌"   ).queue();
             });
-            info.clear();
         }
 
+        if(args[0].equalsIgnoreCase( Main.prefix + "javacodegeeks")){
+
+
+            EmbedBuilder info = ArticleManager.getPage("https://www.javacodegeeks.com/feed",0,true);
+
+            event.getChannel().sendMessage(info.build()).queue(message -> {
+                message.addReaction("⬅️").queue();
+                message.addReaction("➡️").queue();
+                message.addReaction("❌"   ).queue();
+            });
+
+        }
+
+        if(args[0].equalsIgnoreCase( Main.prefix + "awsamazon")){
+
+
+            EmbedBuilder info = ArticleManager.getPage("https://aws.amazon.com/blogs/developer/category/programing-language/java/feed/",0,true);
+
+            event.getChannel().sendMessage(info.build()).queue(message -> {
+                message.addReaction("⬅️").queue();
+                message.addReaction("➡️").queue();
+                message.addReaction("❌"   ).queue();
+            });
+
+        }
+
+        if(args[0].equalsIgnoreCase( Main.prefix + "stackabuse")){
+
+            EmbedBuilder info = ArticleManager.getPage("https://stackabuse.com/rss/",0,true);
+
+            event.getChannel().sendMessage(info.build()).queue(message -> {
+                message.addReaction("⬅️").queue();
+                message.addReaction("➡️").queue();
+                message.addReaction("❌"   ).queue();
+            });
+
+        }
+
+        if(args[0].equalsIgnoreCase( Main.prefix + "freeSearch"))
+        {
+            if(args.length != 2){
+                event.getChannel().sendMessage("Invalid number of arguments").queue();
+            }
+            else{
+                EmbedBuilder info = ArticleManager.getPage(args[1],0,true);
+
+                event.getChannel().sendMessage(info.build()).queue(message -> {
+                    message.addReaction("⬅️").queue();
+                    message.addReaction("➡️").queue();
+                    message.addReaction("❌"   ).queue();
+                });
+            }
+        }
 
         if(args[0].equalsIgnoreCase( Main.prefix + "reddit" )){
-            event.getMessage().delete().queue();
             String redditAddress = "";
 
             if(args.length==4) {
