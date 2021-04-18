@@ -5,16 +5,30 @@ import RSS.RSSReader;
 import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
 
 public class ArticleManager {
-    public static EmbedBuilder rssPage( String urlAddress, int page){
+    private static HashMap<String,List<Article>> adressArticles = new HashMap();
+
+    public static EmbedBuilder getPage( String urlAddress, int page,boolean createNew){
         List<Article> articles;
-        if(urlAddress.contains("www.reddit"))
-           articles = RSSReader.rssRedditFeed(urlAddress);
-        else {
-           articles = RSSReader.readRSSFeed(urlAddress);
+        if(adressArticles.get( urlAddress )!=null && !createNew) {
+            articles = adressArticles.get( urlAddress );
         }
+        else{
+            if(urlAddress.contains("www.reddit"))
+                articles = RSSReader.rssRedditFeed(urlAddress);
+            else {
+                articles = RSSReader.readRSSFeed(urlAddress);
+            }
+            adressArticles.put(urlAddress,articles);
+            articles = adressArticles.get( urlAddress );
+        }
+        return rssPage (urlAddress,page,articles);
+
+    }
+    public static EmbedBuilder rssPage( String urlAddress, int page,List<Article> articles){
         if(page == -1){
             page = articles.size()-1;
         }

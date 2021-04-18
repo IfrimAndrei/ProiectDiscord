@@ -31,7 +31,7 @@ public class GuildMessageReaction extends ListenerAdapter {
                     break;
                 }
             }
-            EmbedBuilder info = ArticleManager.rssPage(tempLink, tempNumber-1);
+            EmbedBuilder info = ArticleManager.getPage(tempLink, tempNumber-1,false);
             event.getChannel().editMessageById( event.getMessageId(),info.build() ).queue();
         }
 
@@ -53,7 +53,7 @@ public class GuildMessageReaction extends ListenerAdapter {
                     break;
                 }
             }
-            EmbedBuilder info = ArticleManager.rssPage(tempLink, tempNumber+1);
+            EmbedBuilder info = ArticleManager.getPage(tempLink, tempNumber+1,false);
             event.getChannel().editMessageById( event.getMessageId(),info.build() ).queue();
             long endTime = System.nanoTime();
 
@@ -85,7 +85,7 @@ public class GuildMessageReaction extends ListenerAdapter {
                     break;
                 }
             }
-            EmbedBuilder info = ArticleManager.rssPage(tempLink, tempNumber-1);
+            EmbedBuilder info = ArticleManager.getPage(tempLink, tempNumber-1,false);
             event.getChannel().editMessageById( event.getMessageId(),info.build() ).queue();
 
         }
@@ -106,7 +106,7 @@ public class GuildMessageReaction extends ListenerAdapter {
                     break;
                 }
             }
-            EmbedBuilder info = ArticleManager.rssPage(tempLink, tempNumber+1);
+            EmbedBuilder info = ArticleManager.getPage(tempLink, tempNumber+1,false);
             event.getChannel().editMessageById( event.getMessageId(),info.build() ).queue();
         }
     }

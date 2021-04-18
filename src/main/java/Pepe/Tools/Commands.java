@@ -66,7 +66,7 @@ public class Commands extends ListenerAdapter {
         if(args[0].equalsIgnoreCase( Main.prefix + "javapapers")){
             event.getMessage().delete().queue();
 
-            EmbedBuilder info = ArticleManager.rssPage("https://javapapers.com/category/java/feed/",0);
+            EmbedBuilder info = ArticleManager.getPage("https://javapapers.com/category/java/feed/",0,true);
 
             event.getChannel().sendMessage(info.build()).queue(message -> {
                                                         message.addReaction("⬅️").queue();
@@ -79,7 +79,7 @@ public class Commands extends ListenerAdapter {
         if(args[0].equalsIgnoreCase( Main.prefix + "mkyong")){
 
             event.getMessage().delete().queue();
-            EmbedBuilder info = ArticleManager.rssPage("https://mkyong.com/feed/",0);
+            EmbedBuilder info = ArticleManager.getPage("https://mkyong.com/feed/",0,true);
 
             event.getChannel().sendMessage(info.build()).queue(message -> {
                 message.addReaction("⬅️").queue();
@@ -115,7 +115,7 @@ public class Commands extends ListenerAdapter {
                 event.getChannel().sendMessage("Too many arguments.").queue();
             }
 
-            EmbedBuilder info = ArticleManager.rssPage(redditAddress,0);
+            EmbedBuilder info = ArticleManager.getPage(redditAddress,0,true);
 
 
             event.getChannel().sendMessage(info.build()).queue(message -> {
