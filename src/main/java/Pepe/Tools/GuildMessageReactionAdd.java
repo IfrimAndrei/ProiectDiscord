@@ -29,6 +29,9 @@ public class GuildMessageReactionAdd extends ListenerAdapter {
             long duration = (endTime - startTime) / 100000000;
             System.out.println( duration );
         }
+        if (event.getReactionEmote().getName().equals( "❌" ) && !event.getMember().getUser().equals( event.getJDA().getSelfUser() ) ){
+            event.getChannel().deleteMessageById( event.getMessageId() ).queue();
+        }
     }
 
     public Message getEventMessage(GuildMessageReactionAddEvent event){
