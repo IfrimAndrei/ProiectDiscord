@@ -59,7 +59,9 @@ public class Commands extends ListenerAdapter {
         } else {
             urlAddress = "https://www.reddit.com/.rss";
         }
+        urlAddress+="?&limit=100";
         System.out.println(urlAddress);
+
         return urlAddress;
     }
 
