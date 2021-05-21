@@ -16,13 +16,13 @@ import java.util.List;
 public class RssReader {
 
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         List<Article> articles = readRSSFeed("https://www.youtube.com/feeds/videos.xml?channel_id=UCQeRaTukNYft1_6AZPACnog");
         for(Article article : articles)
         {
             System.out.println(article);
         }
-    }
+    }*/
 
     public static List<Article> readRedditFeed(String urlAddress) {
         List<Article> rssArticles = new LinkedList<>();
@@ -65,9 +65,6 @@ public class RssReader {
             temp = temp.substring(0, lastPos);
             article.setLink(temp);
             System.out.println(article.getLink());
-
-
-
 
                 firstPos = line.indexOf("https://i.");
                 if (firstPos == -1)

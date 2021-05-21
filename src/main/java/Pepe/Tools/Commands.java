@@ -12,9 +12,6 @@ public class Commands extends ListenerAdapter {
     public void onGuildMessageReceived(GuildMessageReceivedEvent event){
 
         String[] args = event.getMessage().getContentRaw().split( " " );
-        if(args[0].equalsIgnoreCase( "uwu" )){
-            event.getChannel().sendMessage(">W<").queue();
-        }
 
         if(args[0].equals( "wait") && args[1].equals( "what" )){
             Collection<Message> messages = event.getChannel().getHistory().retrievePast(2).complete();
@@ -136,30 +133,30 @@ public class Commands extends ListenerAdapter {
     public void createRedditArticle(String[] args,GuildMessageReceivedEvent event){
         {
             String redditAddress = "";
-
+            boolean ok = false;
             if(args.length==4) {
                 redditAddress = createRedditAddress( args[1], args[2], args[3] );
-
+                ok=true;
             }
             else if(args.length==3) {
                 redditAddress = createRedditAddress( args[1], args[2], null );
-
+                ok=true;
             }
             else if(args.length==2) {
                 redditAddress = createRedditAddress( args[1], null, null );
-
+                ok=true;
             }
             else if(args.length==1){
-                event.getChannel().sendMessage("For better details add a subreddit in the command.").queue();
-                redditAddress = createRedditAddress( null, null, null );
-
+                event.getChannel().sendMessage("Add a subreddit too").queue();
             }
             else{
                 event.getChannel().sendMessage("Too many arguments.").queue();
             }
 
-            createArticle(redditAddress,event);
 
+            if(ok) {
+                createArticle( redditAddress, event );
+            }
         }
     }
 

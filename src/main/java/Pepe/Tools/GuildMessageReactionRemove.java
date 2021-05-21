@@ -22,6 +22,7 @@ public class GuildMessageReactionRemove extends ListenerAdapter {
         }
     }
 
+
     public Message getEventMessage(GuildMessageReactionRemoveEvent event){
         List<Message> messageHistory = event.getChannel().getHistory().retrievePast(100).complete();
         for ( Message m  : messageHistory)
@@ -30,6 +31,7 @@ public class GuildMessageReactionRemove extends ListenerAdapter {
             }
         return null;
     }
+
     public void previousArticle(Message message,GuildMessageReactionRemoveEvent event){
         String tempLink = "";
         int tempNumber = 0;
@@ -43,6 +45,7 @@ public class GuildMessageReactionRemove extends ListenerAdapter {
         EmbedBuilder info = ArticleManager.getPage(tempLink, tempNumber-1,false);
         event.getChannel().editMessageById( event.getMessageId(),info.build() ).queue();
     }
+
     public void nextArticle(Message message,GuildMessageReactionRemoveEvent event){
         String tempLink = "";
         int tempNumber = 0;

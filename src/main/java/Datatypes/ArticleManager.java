@@ -15,6 +15,7 @@ public class ArticleManager {
         if(adressArticles.get( urlAddress )!=null && !createNew) {
             articles = adressArticles.get( urlAddress );
         }
+
         else{
             if(urlAddress.contains("www.reddit")) {
                 articles = RssReader.readRedditFeed( urlAddress );
@@ -34,6 +35,7 @@ public class ArticleManager {
         return rssPage (urlAddress,page,articles);
 
     }
+
     public static EmbedBuilder rssPage( String urlAddress, int page,List<Article> articles){
         if(page == -1){
             page = articles.size()-1;
@@ -44,32 +46,8 @@ public class ArticleManager {
         }
         Article myArticle = articles.get(page);
         EmbedBuilder info = new EmbedBuilder();
-        info.setColor( new Color( 231, 190, 76 ) );
+        info.setColor( new Color( 148, 231, 76 ) );
 
-
-        /*
-        if( urlAddress.contains( "javapapers" ) )
-            info.setThumbnail( "https://javapapers.com/wp-content/themes/papers/images/javapapers.png" );
-        else if ( urlAddress.contains( "mkyong" ) ){
-            info.setThumbnail( "https://i.pinimg.com/originals/41/df/26/41df26f532af6e8cfddc2b217e096c49.png" );
-        }
-        else if (urlAddress.contains( "www.reddit" ) ){
-            info.setThumbnail( "https://upload.wikimedia.org/wikipedia/ro/thumb/b/b4/Reddit_logo.svg/1200px-Reddit_logo.svg.png" );
-        }
-        else if (urlAddress.contains( "www.youtube" )){
-            info.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_of_YouTube_%282015-2017%29.svg/502px-Logo_of_YouTube_%282015-2017%29.svg.png");
-        }
-        else if (urlAddress.contains("www.javacodegeeks")){
-            info.setThumbnail("https://cdn.iconscout.com/icon/free/png-512/java-43-569305.png");
-        }
-        else if (urlAddress.contains("stackabuse")){
-            info.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Stack_Overflow_icon.svg/768px-Stack_Overflow_icon.svg.png");
-        }
-        else if (urlAddress.contains("aws.amazon")){
-            info.setThumbnail("https://img.icons8.com/color/452/amazon-web-services.png");
-        }
-
-         */
         info.setImage( myArticle.getImageURL());
         info.setTitle( myArticle.getTitle() );
         if(myArticle.getDescription() != null) {

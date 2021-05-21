@@ -42,6 +42,7 @@ public class GuildMessageReactionAdd extends ListenerAdapter {
             }
         return null;
     }
+
     public void previousArticle(Message message,GuildMessageReactionAddEvent event){
         String tempLink = "";
         int tempNumber = 0;
@@ -55,6 +56,7 @@ public class GuildMessageReactionAdd extends ListenerAdapter {
         EmbedBuilder info = ArticleManager.getPage(tempLink, tempNumber-1,false);
         event.getChannel().editMessageById( event.getMessageId(),info.build() ).queue();
     }
+
     public void nextArticle(Message message,GuildMessageReactionAddEvent event){
         String tempLink = "";
         int tempNumber = 0;
