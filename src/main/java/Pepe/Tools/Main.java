@@ -1,5 +1,8 @@
 package Pepe.Tools;
 
+import DataBase.Dao.UserCommandsDao;
+import DataBase.Database;
+import Datatypes.SQL.UserCommand;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -17,5 +20,7 @@ public class Main {
         jda.addEventListener( new Commands() );
         jda.addEventListener( new GuildMessageReactionAdd() );
         jda.addEventListener( new GuildMessageReactionRemove() );
+
+
     }
 }

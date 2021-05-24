@@ -2,6 +2,7 @@ package Pepe.Tools;
 
 import Datatypes.ArticleManager;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
@@ -31,6 +32,10 @@ public class GuildMessageReactionAdd extends ListenerAdapter {
         }
         if (event.getReactionEmote().getName().equals( "❌" ) && !event.getMember().getUser().equals( event.getJDA().getSelfUser() ) ){
             event.getChannel().deleteMessageById( event.getMessageId() ).queue();
+        }
+
+        if (event.getReactionEmote().getName().equals( "🔄" ) && !event.getMember().getUser().equals( event.getJDA().getSelfUser() ) ){
+            refreshArticle( getEventMessage(event), event);
         }
     }
 
@@ -71,6 +76,17 @@ public class GuildMessageReactionAdd extends ListenerAdapter {
         event.getChannel().editMessageById( event.getMessageId(),info.build() ).queue();
     }
 
+    public void refreshArticle(Message message, GuildMessageReactionAddEvent event){
+        String tempLink = "";
 
+        for(MessageEmbed m : message.getEmbeds()){
+            String messageInfo = m.getFooter().getText();
+            tempLink = messageInfo.substring(0,messageInfo.indexOf(" "));
+            System.out.println("uwu");
+        }
+
+        EmbedBuilder info = ArticleManager.getPage(tempLink, 0, true);
+        event.getChannel().editMessageById(event.getMessageId(),info.build()).queue();
+    }
 
 }

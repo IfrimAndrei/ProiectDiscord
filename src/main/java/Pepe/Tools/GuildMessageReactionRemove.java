@@ -4,6 +4,7 @@ import Datatypes.ArticleManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -19,6 +20,10 @@ public class GuildMessageReactionRemove extends ListenerAdapter {
         }
         if(event.getReactionEmote().getName().equals("➡️")) {
             nextArticle( getEventMessage(event),event);
+        }
+
+        if(event.getReactionEmote().getName().equals("🔄")){
+            refreshArticle(getEventMessage(event), event);
         }
     }
 
@@ -60,6 +65,16 @@ public class GuildMessageReactionRemove extends ListenerAdapter {
         event.getChannel().editMessageById( event.getMessageId(),info.build() ).queue();
     }
 
+    public void refreshArticle(Message message, GuildMessageReactionRemoveEvent event){
+        String tempLink = "";
 
+        for(MessageEmbed m : message.getEmbeds()){
+            String messageInfo = m.getFooter().getText();
+            tempLink = messageInfo.substring(0,messageInfo.indexOf(" "));
+        }
+
+        EmbedBuilder info = ArticleManager.getPage(tempLink, 0, true);
+        event.getChannel().editMessageById(event.getMessageId(),info.build()).queue();
+    }
 
 }

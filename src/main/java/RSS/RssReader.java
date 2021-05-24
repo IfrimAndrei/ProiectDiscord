@@ -1,9 +1,11 @@
 package RSS;
 
 import Datatypes.Article;
+import org.jsoup.Jsoup;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
@@ -31,15 +33,20 @@ public class RssReader {
         Article article = new Article();
 
         try {
-            URL rssUrl = new URL(urlAddress);
-            URLConnection con = rssUrl.openConnection();
-            con.setRequestProperty("User-Agent", "Chrome");//Error 429 otherwise
-            try {
-                BufferedReader in = new BufferedReader( new InputStreamReader( con.getInputStream(), StandardCharsets.UTF_8 ) );
-                page = in.readLine();
-            }catch (Exception e) {
-                return null;
+            URL url = new URL(urlAddress);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("User-Agent", "Chrome");//Error 429 otherwise
+
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + conn.getResponseCode());
             }
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    (conn.getInputStream())));
+
+            page = in.readLine();
 
             List<String> contents = new ArrayList<>(Arrays.asList(page.split("<author>")));
             contents.remove(0);
@@ -112,8 +119,19 @@ public class RssReader {
     public static List<Article> readRSSFeed(String urlAddress) {
         List<Article> rssArticles = new LinkedList<>();
         try {
-            URL rssUrl = new URL(urlAddress);
-            BufferedReader in = new BufferedReader(new InputStreamReader(rssUrl.openStream()));
+            URL url = new URL(urlAddress);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + conn.getResponseCode());
+            }
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    (conn.getInputStream())));
+
             String lines;
             Article article = new Article();
 
@@ -174,31 +192,15 @@ public class RssReader {
                     article.setImageURL(temp);
                 }
 
+
                 firstPos = line.indexOf("<description>");
                 if(firstPos != -1) {
                     lastPos = line.indexOf("</description>");
                     temp = line.substring(firstPos + "<description>".length(), lastPos);
+                    System.out.println(temp);
                     temp = temp.replace("<![CDATA[", "");
                     temp = temp.replace("]]>", "");
-
-                    if (urlAddress.contains("protv")) {
-                        firstPos = temp.indexOf("/&gt;");
-                        temp = temp.substring(firstPos + "/&gt;".length(), temp.length() - 1);
-
-                    }
-
-                    if (urlAddress.contains("mkyong")) {
-                        firstPos = temp.indexOf("<p>");
-                        lastPos = temp.indexOf(".");
-                        temp = temp.substring(firstPos + "<p>".length(), lastPos + 1);
-
-                    }
-
-                    if (urlAddress.contains("javapapers")) {
-                        temp = temp.replace(" [&#8230;]", "");
-
-                    }
-
+                    temp = temp.replaceAll("\\<.*?\\>", "");
 
                     System.out.println(temp);
                     article.setDescription(temp);
