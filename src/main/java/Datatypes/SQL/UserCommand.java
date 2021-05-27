@@ -1,14 +1,17 @@
 package Datatypes.SQL;
 
+/**
+ * Datatype for the database to store the user_command table
+ */
 public class UserCommand {
     private String command;
-    private String Url;
+    private String url;
 
     @Override
     public String toString() {
         return "User_Commands{" +
                 "command='" + command + '\'' +
-                ", Url='" + Url + '\'' +
+                ", url='" + url + '\'' +
                 '}';
     }
 
@@ -21,10 +24,10 @@ public class UserCommand {
     }
 
     public void setUrl(String url) {
-        Url = url;
+        this.url = url;
     }
 
     public String getUrl() {
-        return Url;
+        return url;
     }
 }

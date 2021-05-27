@@ -6,14 +6,17 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Manages the database connection and communication
+ */
 public class Database {
     private Connection con= null;
     private Statement stmt;
-    private String sql;
-    private ResultSet rs;
     private static Database single_instance = null;
 
-
+    /**
+     * Constructor which creates the connection with the database.
+     */
     private Database(){
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/discordbot_db", "root", "" );
@@ -49,9 +52,9 @@ public class Database {
 
     public List<UserCommand> getUserCommands(){
         List<UserCommand> userCommands = new LinkedList<>();
-        sql = " SELECT * FROM user_commands";
+        String sql = " SELECT * FROM user_commands";
         try{
-            rs = stmt.executeQuery(sql);
+            ResultSet rs = stmt.executeQuery(sql);
             while(rs.next())
             {
                 UserCommand userCommand = new UserCommand();

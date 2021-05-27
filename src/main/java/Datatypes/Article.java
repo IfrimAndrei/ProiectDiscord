@@ -1,5 +1,9 @@
 package Datatypes;
 
+
+/**
+ * Datatype for an article
+ */
 public class Article {
     private String title;
     private String link;

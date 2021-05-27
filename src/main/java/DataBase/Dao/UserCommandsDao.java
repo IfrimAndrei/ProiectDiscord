@@ -3,11 +3,10 @@ package DataBase.Dao;
 
 import DataBase.Database;
 import Datatypes.SQL.UserCommand;
-import java.util.LinkedList;
 import java.util.List;
 
 public class UserCommandsDao implements Dao<UserCommand> {
-    List<UserCommand> userCommands = new LinkedList<>();
+    List<UserCommand> userCommands;
     private final Database db;
 
     public UserCommandsDao(){

@@ -1,50 +1,37 @@
 package RSS;
 
 import Datatypes.Article;
-import org.jsoup.Jsoup;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-
+/**
+ * Manages and Parses the RSS Feed
+ */
 public class RssReader {
 
 
-    /*public static void main(String[] args) {
-        List<Article> articles = readRSSFeed("https://www.youtube.com/feeds/videos.xml?channel_id=UCQeRaTukNYft1_6AZPACnog");
-        for(Article article : articles)
-        {
-            System.out.println(article);
-        }
-    }*/
-
-    public static List<Article> readRedditFeed(String urlAddress) {
+    /**
+     * Parses the RSS Feed, for a Reddit Feed, requested with getRSSFeed, into a list of articles to be displayed
+     * @param urlAddress the urlAddress to which the request is sent
+     * @return rssArticles - a list of articles from the RSS Feed found at the urlAddress
+     * @see Article
+     */
+    public List<Article> readRedditFeed(String urlAddress) {
         List<Article> rssArticles = new LinkedList<>();
 
         String page;
         Article article = new Article();
 
         try {
-            URL url = new URL(urlAddress);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("User-Agent", "Chrome");//Error 429 otherwise
-
-            if (conn.getResponseCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + conn.getResponseCode());
-            }
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
+           BufferedReader in = getRSSData(urlAddress);
 
             page = in.readLine();
 
@@ -111,26 +98,23 @@ public class RssReader {
             }
 
         } catch (Exception e) {
+
             e.printStackTrace();
+            return null;
         }
         return rssArticles;
     }
 
-    public static List<Article> readRSSFeed(String urlAddress) {
+    /**
+     * Parses the RSS Feed, for a nonReddit Feed, requested with getRSSFeed, into a list of articles to be displayed
+     * @param urlAddress the urlAddress to which the request is sent
+     * @return rssArticles - a list of articles from the RSS Feed found at the urlAddress
+     * @see Article
+     */
+    public List<Article> readRSSFeed(String urlAddress) {
         List<Article> rssArticles = new LinkedList<>();
         try {
-            URL url = new URL(urlAddress);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
-
-            if (conn.getResponseCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + conn.getResponseCode());
-            }
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
+            BufferedReader in = getRSSData(urlAddress);
 
             String lines;
             Article article = new Article();
@@ -222,7 +206,29 @@ public class RssReader {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
         return rssArticles;
+    }
+
+    /**
+     * Sends a get request for the @urlAddress and returns the content
+     * @param urlAddress the urlAddress to which the request is sent
+     * @return BufferReader type
+     * @throws IOException Error if URL is not found
+     */
+    public BufferedReader getRSSData(String urlAddress) throws IOException {
+        URL url = new URL(urlAddress);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("User-Agent", "application/json");//Error 429 otherwise
+
+        if (conn.getResponseCode() != 200) {
+            throw new RuntimeException("Failed : HTTP error code : "
+                    + conn.getResponseCode());
+        }
+
+        return new BufferedReader(new InputStreamReader(
+                (conn.getInputStream())));
     }
 }
