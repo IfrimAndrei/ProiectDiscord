@@ -50,8 +50,8 @@ public class Commands extends ListenerAdapter {
                 case "stackabuse"    -> createArticle( "https://stackabuse.com/rss/", event );
             //Miscellaneous
                 case "freesearch"    -> createArticle(args[1],event);
-                case "reddit"        -> new Reddit().createRedditArticle(args,event);
-                case "youtube"       -> new Youtube().createYoutubeArticle(args,event);
+                case "reddit"        -> new Reddit(this).createRedditArticle(args,event);
+                case "youtube"       -> new Youtube(this).createYoutubeArticle(args,event);
                 case "addcommand"    -> addNewCommand(args[1], args[2], event);
                 case "deletecommand" -> deleteCommand(args[1],event);
                 default              -> createNewArticle(args,event);
@@ -67,7 +67,7 @@ public class Commands extends ListenerAdapter {
      * @param event Special parameter
      * @see ArticleManager
      */
-    public static void createArticle(String urlAddress,GuildMessageReceivedEvent event){
+    public void createArticle(String urlAddress,GuildMessageReceivedEvent event){
         EmbedBuilder info = ArticleManager.getPage(urlAddress,0,true);
         if(info==null)
             event.getChannel().sendMessage("Error! URL not found.").queue();
@@ -141,6 +141,8 @@ public class Commands extends ListenerAdapter {
                                 ~youtube
                                 ~youtube [youtuber_name]
                                 ~freeSearch [rss link]
+                                ~addcommand [command_name] [rss feed link]
+                                ~deletecommand [command_name]
                             And other secret commands :wink:
                             """
             ).queue();

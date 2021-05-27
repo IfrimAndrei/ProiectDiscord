@@ -1,5 +1,6 @@
 package PepeTools.SpecialPlatform;
 
+import PepeTools.Commands;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.io.BufferedReader;
@@ -8,13 +9,15 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static PepeTools.Commands.createArticle;
-
-
 /**
  * Manages the youtube articles
  */
 public class Youtube {
+    Commands com;
+    public Youtube(Commands com){
+        this.com = com;
+    }
+
     /**
      * Calls for the youtube URL of the channel given as parameter using defaultYoutubeSearch and if it finds the URL it calls createArticle with that URL
      * @param args The name of the youtube channel
@@ -52,7 +55,7 @@ public class Youtube {
 
 
             if(!youtubeLink.equals("nu exista")) {
-                createArticle( youtubeLink, event );
+                com.createArticle( youtubeLink, event );
             }
             else{
                 event.getChannel().sendMessage("Error! YouTube channel not found.").queue();

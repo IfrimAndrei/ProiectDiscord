@@ -1,13 +1,19 @@
 package PepeTools.SpecialPlatform;
 
+import PepeTools.Commands;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
-import static PepeTools.Commands.createArticle;
 
 /**
  * Manages the reddit articles
  */
 public class Reddit {
+
+    Commands com;
+    public Reddit(Commands com){
+        this.com = com;
+    }
+
     /**
      * Returns urlAddress to reddit based on the parameters
      * @param subreddit reddit forum
@@ -72,7 +78,7 @@ public class Reddit {
 
 
             if(ok) {
-                createArticle( redditAddress, event );
+                com.createArticle( redditAddress, event );
             }
         }
     }
