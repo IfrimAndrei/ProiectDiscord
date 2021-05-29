@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Manages the list of articles
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public class ArticleManager {
     //HashMap in which the list of articles is saved by urlAddress
-    private static final HashMap<String,List<Article>> adressArticles = new HashMap<>();
+    private static final Map<String,List<Article>> adressArticles = new HashMap<>();
 
 
     /**
