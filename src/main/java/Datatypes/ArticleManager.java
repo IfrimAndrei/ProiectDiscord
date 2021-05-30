@@ -52,7 +52,7 @@ public class ArticleManager {
      * @return EmbedBuilder - The EmbedBuilder with the information of the article
      * @see Article
      */
-    public static EmbedBuilder rssPage( String urlAddress, int page,List<Article> articles){
+    private static EmbedBuilder rssPage( String urlAddress, int page,List<Article> articles){
         if(articles == null)
             return null;
         if(page == -1){
