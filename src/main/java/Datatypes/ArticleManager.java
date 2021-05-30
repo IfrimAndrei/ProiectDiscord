@@ -28,21 +28,17 @@ public class ArticleManager {
      */
     public static EmbedBuilder getPage( String urlAddress, int page,boolean createNew){
         List<Article> articles;
-        if(adressArticles.get( urlAddress )!=null && !createNew) {
-            articles = adressArticles.get( urlAddress );
-        }
-
-        else{ RssReader tempReader = new RssReader();
-            if(urlAddress.contains("www.reddit")) {
+        if ( adressArticles.get( urlAddress ) == null || createNew ) {
+            RssReader tempReader = new RssReader();
+            if ( urlAddress.contains( "www.reddit" ) ) {
                 articles = tempReader.readRedditFeed( urlAddress );
-            }
-            else {
-                articles = tempReader.readRSSFeed(urlAddress);
+            } else {
+                articles = tempReader.readRSSFeed( urlAddress );
 
             }
-            adressArticles.put(urlAddress,articles);
-            articles = adressArticles.get( urlAddress );
+            adressArticles.put( urlAddress, articles );
         }
+        articles = adressArticles.get( urlAddress );
 
         return rssPage (urlAddress,page,articles);
 
