@@ -131,16 +131,16 @@ public class RssReader {
             String lines;
             Article article = new Article();
 
-            String page = "";
+            StringBuilder page = new StringBuilder();
             while ((lines = reader.readLine()) != null) {
-                page += lines;
+                page.append( lines );
             }
 
             List<String> contents;
             if(urlAddress.contains("www.youtube"))
-            contents = new ArrayList<>(Arrays.asList(page.split("<entry>")));
+            contents = new ArrayList<>(Arrays.asList( page.toString().split("<entry>")));
             else{
-                contents = new ArrayList<>(Arrays.asList(page.split("<item>")));
+                contents = new ArrayList<>(Arrays.asList( page.toString().split("<item>")));
             }
             contents.remove(0);
 
@@ -196,12 +196,10 @@ public class RssReader {
                     System.out.println(temp);
                     temp = temp.replace("<![CDATA[", "");
                     temp = temp.replace("]]>", "");
-                    temp = temp.replaceAll("\\<.*?\\>", "");
+                    temp = temp.replaceAll("<.*?>", "");
 
                     System.out.println(temp);
                     article.setDescription(temp);
-                    rssArticles.add(article);
-                    article = new Article();
                 }
                 else{
                     if(urlAddress.contains("www.youtube") && line.contains("<media:description>"))
@@ -212,9 +210,9 @@ public class RssReader {
                         System.out.println(temp);
                         article.setDescription(temp);
                     }
-                    rssArticles.add(article);
-                    article = new Article();
                 }
+                rssArticles.add(article);
+                article = new Article();
             }
         } catch (Exception e) {
             e.printStackTrace();
