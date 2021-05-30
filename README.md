@@ -5,7 +5,23 @@ https://discord.com/developers/applications/831466160020127764/bot
 https://discord.com/api/oauth2/authorize?client_id=831466160020127764&permissions=8&scope=bot  
   
 //Dont forget to check the JavaDoc too  
-Technologii folosite: JDA, comunicare cu baza de date(cu interfata Dao), folosirea HashMap si Lista, lucru cu URL-uri (doar cereri GET), tratare exceptii, creare JavaDoc + Jar
+Technologii folosite: JDA, comunicare cu baza de date(cu interfata Dao), folosirea HashMap si Lista, lucru cu URL-uri (doar cereri GET), tratare exceptii, creare JavaDoc
+
+Ifrim Andrei:  
+  -Creare claselor Article si Article Manager;  
+  -Functionalitate pentru Reddit (Platforma speciala) , Clasa Reddit si metoda readRedditFeed;  
+  -Adaugarea reactiilor pentru tranzitiile dintre postari: clasele GuildMessageReactionRemove/GuildMessageReactionAdd;  
+  -Adaugarea metodelor getEventMessage, previousArticle, nextArticle;  
+  -Comenzile: clear;  
+  -Creare buton delete message;  
+
+Chiruta Adrian:  
+  -Crearea functionalitatii pentru platforma Youtube, Clasa Youtube si metoda ;  
+  -Adaugarea comenzilor pentru creat si distrus comenzi speciale retinute intr-o baza de date;  
+  -Creare baza de date si comunicarea cu aceasta;  
+  -Creare metoda readRSSFeed - pentru majoritatea tipurilor de Feed-uri RSS;  
+  -Creare button refresh article;  
+  
 
 Functia de baza a aplicatiei:  
  -user-ul cand da o comanda pentru a vedea un feed Rss (ex: ~javapapers) //programul va genera o lista de Article pentru url   
