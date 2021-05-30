@@ -29,11 +29,11 @@ public class RssReader {
 
         String page;
         Article article = new Article();
-
+        BufferedReader reader = null;
         try {
-           BufferedReader in = getRSSData(urlAddress);
+            reader = getRSSData(urlAddress);
 
-            page = in.readLine();
+            page = reader.readLine();
 
             List<String> contents = new ArrayList<>(Arrays.asList(page.split("<author>")));
             contents.remove(0);
@@ -101,7 +101,17 @@ public class RssReader {
 
             e.printStackTrace();
             return null;
+        }   finally {
+            if (reader != null) {
+                try {
+                    reader. close ();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+
+
         return rssArticles;
     }
 
@@ -113,14 +123,16 @@ public class RssReader {
      */
     public List<Article> readRSSFeed(String urlAddress) {
         List<Article> rssArticles = new LinkedList<>();
+
+        BufferedReader reader=null;
         try {
-            BufferedReader in = getRSSData(urlAddress);
+            reader = getRSSData(urlAddress);
 
             String lines;
             Article article = new Article();
 
             String page = "";
-            while ((lines = in.readLine()) != null) {
+            while ((lines = reader.readLine()) != null) {
                 page += lines;
             }
 
@@ -207,6 +219,14 @@ public class RssReader {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        } finally {
+            if (reader != null) {
+                try {
+                    reader. close ();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return rssArticles;
     }
