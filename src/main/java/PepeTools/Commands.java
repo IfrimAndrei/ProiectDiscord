@@ -27,11 +27,6 @@ public class Commands extends ListenerAdapter {
 
         String[] args = event.getMessage().getContentRaw().split( " " );
 
-        if(args[0].equals( "wait") && args[1].equals( "what" )){
-            Collection<Message> messages = event.getChannel().getHistory().retrievePast(2).complete();
-            event.getChannel().deleteMessages( messages ).queue();
-        }
-
         if(args[0].indexOf( Main.prefix ) == 0)
         {
             String userCommand = args[0].substring( 1 ).toLowerCase();
