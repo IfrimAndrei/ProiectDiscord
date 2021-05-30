@@ -212,7 +212,9 @@ public class Commands extends ListenerAdapter {
             if(!ok)
             event.getChannel().sendMessage("Error! Command doesn't exist!").queue();
         }
-        event.getChannel().sendMessage("Error! Command doesn't exist!").queue();
+        else {
+            event.getChannel().sendMessage("Error! Command doesn't exist!").queue();
+        }
     }
 
     /**
