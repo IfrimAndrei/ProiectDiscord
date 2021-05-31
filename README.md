@@ -22,6 +22,25 @@ Chiruta Adrian:
   -Creare metoda readRSSFeed - pentru majoritatea tipurilor de Feed-uri RSS;  
   -Creare button refresh article;  
   
+Comenzi care pot fi apelate:   
+~commands  
+~info  
+~clear [integer]  
+~datetime  
+~stop  
+JavaBlogs:  
+~javapapers  
+~mkyong  
+~javacodegeeks  
+~awsamazon  
+~stackabuse  
+Miscellaneous:  
+~reddit [subreddit_name] ...[extra]  
+~youtube  
+~youtube [youtuber_name]  
+~freeSearch [rss link]  
+~addcommand [command_name] [rss feed link]  
+~deletecommand [command_name]  
 
 Functia de baza a aplicatiei:  
  -user-ul cand da o comanda pentru a vedea un feed Rss (ex: ~javapapers) //programul va genera o lista de Article pentru url   
