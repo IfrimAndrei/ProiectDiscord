@@ -33,7 +33,7 @@ public class Commands extends ListenerAdapter {
             switch (userCommand) {
             //basic commands
                 case "info"          -> showInfo(event);
-                case "commands"      -> showCommands( event );
+                //case "commands"      -> showCommands( event );
                 case "clear"         -> clearMessages( args,event );
                 case "datetime"      -> getCurrentDate(event);
                 case "stop"          -> stopDiscord(event);
@@ -116,7 +116,7 @@ public class Commands extends ListenerAdapter {
      * Displays in the Discord chat the possible commands to call
      * @param event Special parameter
      */
-    public void showCommands(GuildMessageReceivedEvent event){
+    /*public void showCommands(GuildMessageReceivedEvent event){
         {
             event.getChannel().sendMessage( """
                             Commands that I can help with:\s
@@ -142,7 +142,7 @@ public class Commands extends ListenerAdapter {
                             """
             ).queue();
         }
-    }
+    }*/
 
     public void getCurrentDate(GuildMessageReceivedEvent event){
         Date currentDate = new Date();
