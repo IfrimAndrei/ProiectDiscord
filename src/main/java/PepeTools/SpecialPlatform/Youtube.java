@@ -27,8 +27,8 @@ public class Youtube {
     public void createYoutubeArticle(String[] args, GuildMessageReceivedEvent event){
         String channelName;
         if(args.length == 1)
-        {
-            event.getChannel().sendMessage( """
+        {   /* HEROKU
+            event.getChannel().sendMessage( """ HEROKU
                             Exemple for a youtube channel list:\s
                               -  LinusTechTips
                               -  OrdinaryThings
@@ -36,14 +36,14 @@ public class Youtube {
                               -  GMHikaru
                               -  AbdulBari
                             """
-            ).queue();
+            ).queue();*/
         }
         else if(args.length >= 2){
             channelName = args[1].toLowerCase();
             for(int i=2;i<args.length;i++)
                 channelName = channelName.concat(args[i].toLowerCase());
-            String youtubeLink;
-
+            String youtubeLink = null; //HEROKU
+            /* HEROKU
             switch (channelName){
                 case "linustechtips"  -> youtubeLink = "https://www.youtube.com/feeds/videos.xml?channel_id=UCXuqSBlHAE6Xw-yeJA0Tunw";
                 case "gmhikaru"       -> youtubeLink = "https://www.youtube.com/feeds/videos.xml?channel_id=UCweCc7bSMX5J4jEH7HFImng";
@@ -51,7 +51,7 @@ public class Youtube {
                 case "thenewboston"   -> youtubeLink = "https://www.youtube.com/feeds/videos.xml?channel_id=UCJbPGzawDH1njbqV-D5HqKw";
                 case "abdulbari"      -> youtubeLink = "https://www.youtube.com/feeds/videos.xml?channel_id=UCZCFT11CWBi3MHNlGf019nw";
                 default               -> youtubeLink = defaultYoutubeSearch(channelName, event);
-            }
+            }*/
 
 
             if(!youtubeLink.equals("nu exista")) {
