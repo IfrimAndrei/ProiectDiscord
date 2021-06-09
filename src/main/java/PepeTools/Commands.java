@@ -30,6 +30,15 @@ public class Commands extends ListenerAdapter {
         if(args[0].indexOf( Main.prefix ) == 0)
         {
             String userCommand = args[0].substring( 1 ).toLowerCase();
+            if( userCommand.equals( "clear" ) )
+            {
+                clearMessages( args,event );
+            }
+            else if( userCommand.equals( "reddit" ) )
+            {
+                new Reddit(this).createRedditArticle(args,event);
+            }
+            /*
             switch (userCommand) {
             //basic commands
                 case "info"          -> showInfo(event);
@@ -50,7 +59,7 @@ public class Commands extends ListenerAdapter {
                 case "addcommand"    -> addNewCommand(args[1], args[2], event);
                 case "deletecommand" -> deleteCommand(args[1],event);
                 default              -> createNewArticle(args,event);
-            }
+            }*/
         }
 
     }
