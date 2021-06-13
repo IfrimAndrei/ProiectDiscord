@@ -1,1 +1,1 @@
-worker: java /src/main/java/PepeTools/Main.java 
+Worker: java /src/main/java/PepeTools/Main.java
