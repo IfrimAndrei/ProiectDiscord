@@ -1,3 +1,1 @@
-Worker: java /src/main/java/PepeTools/Main.java
-web: gunicorn --pythonpath app app.wsgi
-
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.PepeTools.Main
